@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+spring:
+  banner:
+    location: classpath:banner/banner-prod.txt
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
+  application:
+    name: msv-maven-student
+    version: "@project.version@"
+  r2dbc:
+    url: ${MYSQL_HOST}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  output:
+    ansi:
+      enabled: ALWAYS
+
+logging:
+  level:
+    root: INFO
