@@ -3,9 +3,9 @@ package com.maven.student.infrastructure.util;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import com.maven.student.application.dto.RequestDto;
-import com.maven.student.application.dto.ResponseDto;
 import com.maven.student.domain.model.StudentEntity;
+import com.openapi.generate.model.RequestDto;
+import com.openapi.generate.model.ResponseDto;
 
 /**
  * StudentMapper.

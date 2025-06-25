@@ -1,7 +1,7 @@
 package com.maven.student.application.usecases;
 
-import com.maven.student.application.dto.RequestDto;
-import com.maven.student.application.dto.ResponseDto;
+import com.openapi.generate.model.RequestDto;
+import com.openapi.generate.model.ResponseDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

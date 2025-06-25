@@ -33,6 +33,8 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <server.resource>openapi</server.resource>
+        <base.package>com.openapi.generate</base.package>
         <sonar.coverage.exclusions>
             **/application/**
             **/model/**
@@ -40,6 +42,7 @@
             **/infrastructure/**
             **/Application.class
         </sonar.coverage.exclusions>
+        <openapi-generator.version>7.6.0</openapi-generator.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +52,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>2.8.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
         </dependency>
         <dependency>
             <groupId>io.asyncer</groupId>
@@ -68,7 +81,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.1.Final</version>
+            <version>8.0.2.Final</version>
         </dependency>
 
         <!--<dependency>
@@ -193,7 +206,7 @@
                         <exclude>**/Application.class</exclude>
                     </excludes>
                 </configuration>
-                <executions>
+                <!--<executions>
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
@@ -229,6 +242,55 @@
                                     </limits>
                                 </rule>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>-->
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-openapi-server</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <packageName>${base.package}.${server.resource}</packageName>
+                            <apiPackage>${base.package}.api</apiPackage>
+                            <modelPackage>${base.package}.model</modelPackage>
+                            <configOptions>
+                                <reactive>true</reactive>
+                                <openApiNullable>true</openApiNullable>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useSwaggerUI>true</useSwaggerUI>
+                                <useTags>true</useTags>
+                                <useLombokAnnotations>true</useLombokAnnotations>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--Agrega esto para que los sources generados se compilen -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/src/main/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>

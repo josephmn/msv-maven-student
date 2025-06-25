@@ -1,8 +1,9 @@
 package com.maven.student.presentation;
 
-import com.maven.student.application.dto.RequestDto;
-import com.maven.student.application.dto.ResponseDto;
+
 import com.maven.student.application.usecases.StudentUseCase;
+import com.openapi.generate.model.RequestDto;
+import com.openapi.generate.model.ResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,15 +36,35 @@ class StudentControllerTest {
         webTestClient = WebTestClient.bindToController(studentController)
                 .build();
 
-        requestDto1 = new RequestDto(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
-        requestDto2 = new RequestDto(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
+        requestDto1 = new RequestDto()
+                .id(1L)
+                .document("12345678")
+                .name("Juan")
+                .lastName("Perez")
+                .status(true)
+                .age(OBJ_AGE);
+        requestDto2 = new RequestDto()
+                .id(2L)
+                .document("87654321")
+                .name("Maria")
+                .lastName("Lopez")
+                .status(true)
+                .age(OBJ_AGE);
 
-        responseDto1 = new ResponseDto(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
-        responseDto2 = new ResponseDto(2L, "87654321",
-                "Maria", "Lopez", true, OBJ_AGE);
+        responseDto1 = new ResponseDto()
+                .id(1L)
+                .document("12345678")
+                .name("Juan")
+                .lastName("Perez")
+                .status(true)
+                .age(OBJ_AGE);
+        responseDto2 = new ResponseDto()
+                .id(2L)
+                .document("87654321")
+                .name("Maria")
+                .lastName("Lopez")
+                .status(true)
+                .age(OBJ_AGE);
         studentResponseFlux = Flux.just(responseDto1, responseDto2);
     }
 

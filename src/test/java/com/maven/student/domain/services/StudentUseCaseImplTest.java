@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import com.maven.student.application.dto.RequestDto;
-import com.maven.student.application.dto.ResponseDto;
+import com.openapi.generate.model.RequestDto;
+import com.openapi.generate.model.ResponseDto;
 import com.maven.student.domain.model.StudentEntity;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
@@ -39,18 +39,33 @@ class StudentUseCaseImplTest {
 
     @BeforeEach
     void setUp() {
-        requestDto1 = new RequestDto(null, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
+        requestDto1 = new RequestDto()
+                .id(null)
+                .document("12345678")
+                .name("Juan")
+                .lastName("Perez")
+                .status(true)
+                .age(OBJ_AGE);
 
         student1 = new StudentEntity(1L, "12345678",
                 "Juan", "Perez", true, OBJ_AGE);
         student2 = new StudentEntity(2L, "12345679",
                 "Julia", "Valencia", true, OBJ_AGE);
 
-        responseDto1 = new ResponseDto(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
-        responseDto2 = new ResponseDto(2L, "12345679",
-                "Julia", "Romano", true, OBJ_AGE);
+        responseDto1 = new ResponseDto()
+                .id(1L)
+                .document("12345678")
+                .name("Juan")
+                .lastName("Perez")
+                .status(true)
+                .age(OBJ_AGE);
+        responseDto2 = new ResponseDto()
+                .id(2L)
+                .document("12345678")
+                .name("Julia")
+                .lastName("Romano")
+                .status(true)
+                .age(OBJ_AGE);
     }
 
     @Test
@@ -68,7 +83,7 @@ class StudentUseCaseImplTest {
     @Test
     void testCreateStudent_WhenStudentDoesNotExist() {
         // Arrange
-        when(repositoryReactive.findByDocument(requestDto1.document())).thenReturn(Mono.empty());
+        when(repositoryReactive.findByDocument(requestDto1.getDocument())).thenReturn(Mono.empty());
         when(studentMapper.requestToStudent(requestDto1)).thenReturn(student1);
         when(repositoryReactive.save(student1)).thenReturn(Mono.just(student1));
         when(studentMapper.studentToResponse(student1)).thenReturn(responseDto1);
@@ -82,7 +97,7 @@ class StudentUseCaseImplTest {
     @Test
     void testCreateStudent_WhenStudentExists() {
         // Arrange
-        when(repositoryReactive.findByDocument(requestDto1.document())).thenReturn(Mono.just(student1));
+        when(repositoryReactive.findByDocument(requestDto1.getDocument())).thenReturn(Mono.just(student1));
 
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))

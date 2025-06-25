@@ -1,12 +1,12 @@
 package com.maven.student.domain.services;
 
 import org.springframework.stereotype.Service;
-import com.maven.student.application.dto.RequestDto;
-import com.maven.student.application.dto.ResponseDto;
 import com.maven.student.application.usecases.StudentUseCase;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
 import com.maven.student.infrastructure.util.StudentMapper;
+import com.openapi.generate.model.RequestDto;
+import com.openapi.generate.model.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -39,7 +39,7 @@ public class StudentUseCaseImpl implements StudentUseCase {
     @Override
     public Mono<ResponseDto> createStudent(RequestDto requestDto) {
         log.info("Start execute method createStudent");
-        final String documentNumber = requestDto.document();
+        final String documentNumber = requestDto.getDocument();
         return repositoryReactive.findByDocument(documentNumber)
                 .flatMap(existingCustomer -> Mono.error(new StudentAlreadyExistsException(
                         "Student exists with document number: %s", documentNumber)))
