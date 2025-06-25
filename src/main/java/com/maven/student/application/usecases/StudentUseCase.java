@@ -1,7 +1,7 @@
 package com.maven.student.application.usecases;
 
-import com.openapi.generate.model.RequestDto;
-import com.openapi.generate.model.ResponseDto;
+import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseStudentDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -13,6 +13,6 @@ import reactor.core.publisher.Mono;
  * @since 2025-06-16
  */
 public interface StudentUseCase {
-    Flux<ResponseDto> getAllStudentsActives();
-    Mono<ResponseDto> createStudent(RequestDto requestDto);
+    Flux<ResponseStudentDto> getAllStudentsActives();
+    Mono<ResponseStudentDto> createStudent(RequestStudentDto requestDto);
 }

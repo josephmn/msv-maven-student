@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import com.openapi.generate.model.RequestDto;
-import com.openapi.generate.model.ResponseDto;
+import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseStudentDto;
 import com.maven.student.domain.model.StudentEntity;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
@@ -28,9 +28,9 @@ class StudentUseCaseImplTest {
     @InjectMocks
     private StudentUseCaseImpl studentUseCaseImpl;
 
-    private RequestDto requestDto1;
-    private ResponseDto responseDto1;
-    private ResponseDto responseDto2;
+    private RequestStudentDto requestDto1;
+    private ResponseStudentDto responseDto1;
+    private ResponseStudentDto responseDto2;
 
     private StudentEntity student1;
     private StudentEntity student2;
@@ -39,7 +39,7 @@ class StudentUseCaseImplTest {
 
     @BeforeEach
     void setUp() {
-        requestDto1 = new RequestDto()
+        requestDto1 = new RequestStudentDto()
                 .id(null)
                 .document("12345678")
                 .name("Juan")
@@ -52,14 +52,14 @@ class StudentUseCaseImplTest {
         student2 = new StudentEntity(2L, "12345679",
                 "Julia", "Valencia", true, OBJ_AGE);
 
-        responseDto1 = new ResponseDto()
+        responseDto1 = new ResponseStudentDto()
                 .id(1L)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")
                 .status(true)
                 .age(OBJ_AGE);
-        responseDto2 = new ResponseDto()
+        responseDto2 = new ResponseStudentDto()
                 .id(2L)
                 .document("12345678")
                 .name("Julia")

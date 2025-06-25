@@ -2,8 +2,8 @@ package com.maven.student.presentation;
 
 
 import com.maven.student.application.usecases.StudentUseCase;
-import com.openapi.generate.model.RequestDto;
-import com.openapi.generate.model.ResponseDto;
+import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseStudentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,13 +18,13 @@ class StudentControllerTest {
     private static final String STUDENT_API = "/api/v1/students";
     public static final int OBJ_AGE = 25;
 
-    private RequestDto requestDto1;
-    private RequestDto requestDto2;
-    private ResponseDto responseDto1;
-    private ResponseDto responseDto2;
+    private RequestStudentDto requestDto1;
+    private RequestStudentDto requestDto2;
+    private ResponseStudentDto responseDto1;
+    private ResponseStudentDto responseDto2;
 
     private WebTestClient webTestClient;
-    private Flux<ResponseDto> studentResponseFlux;
+    private Flux<ResponseStudentDto> studentResponseFlux;
     private StudentUseCase studentUseCase;
 
     @BeforeEach
@@ -36,14 +36,14 @@ class StudentControllerTest {
         webTestClient = WebTestClient.bindToController(studentController)
                 .build();
 
-        requestDto1 = new RequestDto()
+        requestDto1 = new RequestStudentDto()
                 .id(1L)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")
                 .status(true)
                 .age(OBJ_AGE);
-        requestDto2 = new RequestDto()
+        requestDto2 = new RequestStudentDto()
                 .id(2L)
                 .document("87654321")
                 .name("Maria")
@@ -51,14 +51,14 @@ class StudentControllerTest {
                 .status(true)
                 .age(OBJ_AGE);
 
-        responseDto1 = new ResponseDto()
+        responseDto1 = new ResponseStudentDto()
                 .id(1L)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")
                 .status(true)
                 .age(OBJ_AGE);
-        responseDto2 = new ResponseDto()
+        responseDto2 = new ResponseStudentDto()
                 .id(2L)
                 .document("87654321")
                 .name("Maria")
@@ -76,7 +76,7 @@ class StudentControllerTest {
         webTestClient.get().uri(STUDENT_API)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBodyList(ResponseDto.class)
+                .expectBodyList(ResponseStudentDto.class)
                 .hasSize(2)
                 .contains(responseDto1, responseDto2);
 
@@ -91,7 +91,7 @@ class StudentControllerTest {
                 .bodyValue(requestDto1)
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody(ResponseDto.class)
+                .expectBody(ResponseStudentDto.class)
                 .isEqualTo(responseDto1);
 
         verify(studentUseCase).createStudent(requestDto1);
@@ -105,7 +105,7 @@ class StudentControllerTest {
                 .bodyValue(requestDto2)
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody(ResponseDto.class)
+                .expectBody(ResponseStudentDto.class)
                 .isEqualTo(responseDto2);
 
         verify(studentUseCase).createStudent(requestDto2);

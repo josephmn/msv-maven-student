@@ -26,7 +26,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResponseDto'
+                  $ref: '#/components/schemas/ResponseStudentDto'
         '400':
           description: Invalid username supplied
         '404':
@@ -49,7 +49,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestDto'
+              $ref: '#/components/schemas/RequestStudentDto'
         required: true
       responses:
         '201':
@@ -57,7 +57,61 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseDto'
+                $ref: '#/components/schemas/ResponseStudentDto'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /teachers:
+    get:
+      tags:
+        - teacher
+      summary: Get all teacher.
+      description: Get all teacher.
+      operationId: getAllTeachers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseTeacherDto'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      tags:
+        - teacher
+      summary: Create teacher.
+      description: Create teacher in database.
+      operationId: createTeacher
+      requestBody:
+        description: Created teacher object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTeacherDto'
+        required: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseTeacherDto'
         default:
           description: Unexpected error
           content:
@@ -67,7 +121,7 @@ paths:
 
 components:
   schemas:
-    RequestDto:
+    RequestStudentDto:
       type: object
       properties:
         id:
@@ -91,7 +145,7 @@ components:
           format: int32
           example: 30
 
-    ResponseDto:
+    ResponseStudentDto:
       type: object
       properties:
         id:
@@ -101,6 +155,54 @@ components:
         document:
           type: string
           example: 78653423
+        name:
+          type: string
+          example: Jhon
+        lastName:
+          type: string
+          example: James
+        status:
+          type: boolean
+          example: true
+        age:
+          type: integer
+          format: int32
+          example: 30
+
+    RequestTeacherDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        document:
+          type: string
+          example: 45453245
+        name:
+          type: string
+          example: Jhon
+        lastName:
+          type: string
+          example: James
+        status:
+          type: boolean
+          example: true
+        age:
+          type: integer
+          format: int32
+          example: 30
+
+    ResponseTeacherDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        document:
+          type: string
+          example: 45453245
         name:
           type: string
           example: Jhon

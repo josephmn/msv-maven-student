@@ -52,6 +52,21 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       ('66666666','Cristian','Dominguez',0,35),
       ('77777777','Ronaldo','Flores',1,40),
       ('88888888','Juan','Enrique',0,21);
+
+
+      CREATE TABLE teacher (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+         document VARCHAR(15),
+         name VARCHAR(50),
+         last_name VARCHAR(50),
+         status BOOLEAN,
+         age int
+      );
+   
+      INSERT INTO teacher (document, name, last_name, status, age)
+      VALUES
+      ('45453245','Jhon','James',1,33),
+      ('46576543','Julian','Valdivieso',0,35);
       ```
 4. Instalar Vault para el almacenamiento de secretos:
     - Descargar e instalar Vault para su SO, desde [Vault](https://www.vaultproject.io/downloads).
@@ -98,19 +113,42 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       ```
 7. Probar los endpoints:
    - Para probar los endpoints, puedes usar Postman o cualquier cliente HTTP.
-   - Para consultar los estudiantes activos, realiza una solicitud GET a:
+
+     - Para consultar los estudiantes activos, realiza una solicitud GET a:
      ```cUrl
-     curl --location 'http://localhost:8082/api/v1/students'
+     curl -X 'GET' \
+       'http://localhost:8082/api/v1/students' \
+       -H 'accept: application/json'
      ```
-   - Para registrar un nuevo estudiante, realiza una solicitud POST a:
+     - Para registrar un nuevo estudiante, realiza una solicitud POST a:
      ```cUrl
-     curl --location 'http://localhost:8082/api/v1/students' \
-     --header 'Content-Type: application/json' \
-     --data '{
-     "document": "99999999",
-     "name": "Enrique",
-     "lastName": "Flores",
-     "status": true,
-     "age": 33
+     curl -X 'POST' \
+       'http://localhost:8082/api/v1/students' \
+       -H 'accept: application/json' \
+       -H 'Content-Type: application/json' \
+       -d '{
+       "document": "78653423",
+       "name": "Jhon",
+       "lastName": "James",
+       "status": true,
+       "age": 30
+     }'
+     ```
+     - Para consultar los profesores, realiza una solicitud GET a:
+     ```cUrl
+     curl -X 'GET' \
+       'http://localhost:8082/api/v1/teachers' \
+       -H 'accept: application/json'
+     ```
+     - Para registrar un nuevo teacher, realiza una solicitud POST a:
+     ```cUrl
+     curl -X 'POST' \
+       'http://localhost:8082/api/v1/teachers' \
+       -H 'accept: application/json' \
+       -H 'Content-Type: application/json' \
+       -d '{
+       "document": "45453245",
+       "name": "Jhon",
+       "lastName": "James"
      }'
      ```
