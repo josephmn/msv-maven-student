@@ -29,6 +29,12 @@ public class StudentController implements StudentApi {
     private final StudentUseCase studentUseCase;
 
     @Override
+    public Mono<ResponseEntity<Flux<ResponseStudentDto>>> getAllStudents(ServerWebExchange exchange) {
+        return Mono.just(ResponseEntity.ok(this.studentUseCase.getAllStudents()))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
     public Mono<ResponseEntity<Flux<ResponseStudentDto>>> getAllStudentsActives(
             ServerWebExchange exchange) {
         return Mono.just(ResponseEntity.ok(this.studentUseCase.getAllStudentsActives()))

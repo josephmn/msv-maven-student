@@ -111,44 +111,50 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       mvn clean install
       mvn spring-boot:run
       ```
-7. Probar los endpoints:
-   - Para probar los endpoints, puedes usar Postman o cualquier cliente HTTP.
+7. Ejecutar los endpoints:
+    - Para ejecutar los endpoints, puedes usar Postman o cualquier cliente HTTP.
 
-     - Para consultar los estudiantes activos, realiza una solicitud GET a:
-     ```cUrl
-     curl -X 'GET' \
-       'http://localhost:8082/api/v1/students' \
-       -H 'accept: application/json'
-     ```
-     - Para registrar un nuevo estudiante, realiza una solicitud POST a:
-     ```cUrl
-     curl -X 'POST' \
-       'http://localhost:8082/api/v1/students' \
-       -H 'accept: application/json' \
-       -H 'Content-Type: application/json' \
-       -d '{
-       "document": "78653423",
-       "name": "Jhon",
-       "lastName": "James",
-       "status": true,
-       "age": 30
-     }'
-     ```
-     - Para consultar los profesores, realiza una solicitud GET a:
-     ```cUrl
-     curl -X 'GET' \
-       'http://localhost:8082/api/v1/teachers' \
-       -H 'accept: application/json'
-     ```
-     - Para registrar un nuevo teacher, realiza una solicitud POST a:
-     ```cUrl
-     curl -X 'POST' \
-       'http://localhost:8082/api/v1/teachers' \
-       -H 'accept: application/json' \
-       -H 'Content-Type: application/json' \
-       -d '{
-       "document": "45453245",
-       "name": "Jhon",
-       "lastName": "James"
-     }'
-     ```
+        - Para consultar todos los estudiantes, realiza una solicitud GET a:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/students' \
+      -H 'accept: application/json'
+      ```
+        - Para consultar los estudiantes activos, realiza una solicitud GET a:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/students/actives' \
+      -H 'accept: application/json'
+      ```
+        - Para registrar un nuevo estudiante, realiza una solicitud POST a:
+      ```cUrl
+      curl -X 'POST' \
+        'http://localhost:8082/api/v1/students' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "document": "78653423",
+        "name": "Jhon",
+        "lastName": "James",
+        "status": true,
+        "age": 30
+      }'
+      ```
+        - Para consultar todos los profesores, realiza una solicitud GET a:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/teachers' \
+        -H 'accept: application/json'
+      ```
+        - Para registrar un nuevo teacher, realiza una solicitud POST a:
+      ```cUrl
+      curl -X 'POST' \
+        'http://localhost:8082/api/v1/teachers' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "document": "45453245",
+        "name": "Jhon",
+        "lastName": "James"
+      }'
+      ```

@@ -1,17 +1,17 @@
 package com.maven.student.presentation;
 
-
-import com.maven.student.application.usecases.StudentUseCase;
-import com.openapi.generate.model.RequestStudentDto;
-import com.openapi.generate.model.ResponseStudentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import com.maven.student.application.usecases.StudentUseCase;
+import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseStudentDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static org.mockito.Mockito.*;
 
 class StudentControllerTest {
 
@@ -70,10 +70,25 @@ class StudentControllerTest {
 
     @Test
     @DisplayName("method get all student actives test")
-    void getAllStudentTest() {
-        when(studentUseCase.getAllStudentsActives()).thenReturn(studentResponseFlux);
+    void getAllStudent() {
+        when(studentUseCase.getAllStudents()).thenReturn(studentResponseFlux);
 
         webTestClient.get().uri(STUDENT_API)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(ResponseStudentDto.class)
+                .hasSize(2)
+                .contains(responseDto1, responseDto2);
+
+        verify(studentUseCase).getAllStudents();
+    }
+
+    @Test
+    @DisplayName("method get all actives students test")
+    void getAllStudentActivesTest() {
+        when(studentUseCase.getAllStudentsActives()).thenReturn(studentResponseFlux);
+
+        webTestClient.get().uri(STUDENT_API  + "/actives")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(ResponseStudentDto.class)

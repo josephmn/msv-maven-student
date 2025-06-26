@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
  * @since 2025-06-16
  */
 public interface StudentUseCase {
+    Flux<ResponseStudentDto> getAllStudents();
     Flux<ResponseStudentDto> getAllStudentsActives();
     Mono<ResponseStudentDto> createStudent(RequestStudentDto requestDto);
 }
