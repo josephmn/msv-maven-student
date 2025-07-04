@@ -151,10 +151,6 @@ components:
     RequestStudentDto:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
         document:
           type: string
           example: 78653423

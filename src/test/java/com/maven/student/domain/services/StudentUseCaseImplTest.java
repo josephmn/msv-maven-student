@@ -40,7 +40,6 @@ class StudentUseCaseImplTest {
     @BeforeEach
     void setUp() {
         requestDto1 = new RequestStudentDto()
-                .id(null)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")

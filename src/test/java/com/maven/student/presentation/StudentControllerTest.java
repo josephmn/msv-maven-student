@@ -37,14 +37,12 @@ class StudentControllerTest {
                 .build();
 
         requestDto1 = new RequestStudentDto()
-                .id(1L)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")
                 .status(true)
                 .age(OBJ_AGE);
         requestDto2 = new RequestStudentDto()
-                .id(2L)
                 .document("87654321")
                 .name("Maria")
                 .lastName("Lopez")
