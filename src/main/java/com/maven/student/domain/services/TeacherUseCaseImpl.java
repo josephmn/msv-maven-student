@@ -3,7 +3,7 @@ package com.maven.student.domain.services;
 import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.TeacherUseCase;
 import com.maven.student.domain.repository.TeacherRepositoryReactive;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.util.TeacherMapper;
 import com.openapi.generate.model.RequestTeacherDto;
 import com.openapi.generate.model.ResponseTeacherDto;
@@ -39,7 +39,7 @@ public class TeacherUseCaseImpl implements TeacherUseCase {
         log.info("Start execute method createTeacher");
         final String documentNumber = requestDto.getDocument();
         return repositoryReactive.findByDocument(documentNumber)
-                .flatMap(existingCustomer -> Mono.error(new StudentAlreadyExistsException(
+                .flatMap(existingCustomer -> Mono.error(new AlreadyExistsException(
                         "Teacher exists with document number: %s", documentNumber)))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.info("Teacher before create: {}", requestDto);

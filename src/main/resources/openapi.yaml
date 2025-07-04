@@ -150,6 +150,13 @@ paths:
           schema:
             type: integer
             format: int64
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestStudentDto'
+        required: true
       responses:
         '200':
           description: successful operation

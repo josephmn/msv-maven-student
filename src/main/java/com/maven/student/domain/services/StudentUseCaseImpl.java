@@ -3,7 +3,7 @@ package com.maven.student.domain.services;
 import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.StudentUseCase;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.util.StudentMapper;
 import com.openapi.generate.model.RequestStudentDto;
 import com.openapi.generate.model.ResponseStudentDto;
@@ -50,7 +50,7 @@ public class StudentUseCaseImpl implements StudentUseCase {
         log.info("Start execute method getStudentById");
         return repositoryReactive.findById(id)
                 .map(studentMapper::studentToResponse)
-                .switchIfEmpty(Mono.error(new StudentAlreadyExistsException(
+                .switchIfEmpty(Mono.error(new AlreadyExistsException(
                         "Student not found with id: %s", id)))
                 .doOnTerminate(() -> log.info("Finished execute method getStudentById"));
     }
@@ -60,7 +60,7 @@ public class StudentUseCaseImpl implements StudentUseCase {
         log.info("Start execute method createStudent");
         final String documentNumber = requestDto.getDocument();
         return repositoryReactive.findByDocument(documentNumber)
-                .flatMap(existingCustomer -> Mono.error(new StudentAlreadyExistsException(
+                .flatMap(existingCustomer -> Mono.error(new AlreadyExistsException(
                         "Student exists with document number: %s", documentNumber)))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.info("Student before create: {}", requestDto);
@@ -71,5 +71,26 @@ public class StudentUseCaseImpl implements StudentUseCase {
                 }))
                 .cast(ResponseStudentDto.class)
                 .doOnTerminate(() -> log.info("Finished execute method createStudent"));
+    }
+
+    @Override
+    public Mono<ResponseStudentDto> updateStudentById(Long id, RequestStudentDto requestDto) {
+        log.info("Start execute method updateStudentById");
+        return repositoryReactive.findById(id)
+                .switchIfEmpty(Mono.error(new AlreadyExistsException(
+                        "Student not found with id: %s", id)))
+                .flatMap(existingStudent -> {
+                    if (!existingStudent.getDocument().equals(requestDto.getDocument())) {
+                        return Mono.error(new AlreadyExistsException(
+                                "Student with document %s, doesn't correspond the object", requestDto.getDocument()));
+                    }
+                    else {
+                        final var updatedStudent = studentMapper.requestToStudent(requestDto);
+                        updatedStudent.setId(id);
+                        return repositoryReactive.save(updatedStudent)
+                            .map(studentMapper::studentToResponse);
+                    }
+                })
+                .doOnTerminate(() -> log.info("Finished execute method updateStudentById"));
     }
 }

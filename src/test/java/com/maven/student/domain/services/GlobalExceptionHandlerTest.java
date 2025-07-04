@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.maven.student.infrastructure.exception.ErrorResponse;
 import com.maven.student.infrastructure.exception.GlobalExceptionHandler;
 import com.maven.student.infrastructure.exception.types.NotFoundException;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import reactor.core.publisher.Mono;
 
 class GlobalExceptionHandlerTest {
@@ -38,7 +38,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testHandleStudentAlreadyExistsException() {
-        final StudentAlreadyExistsException ex = new StudentAlreadyExistsException("Ya existe");
+        final AlreadyExistsException ex = new AlreadyExistsException("Ya existe");
         final Mono<ResponseEntity<ErrorResponse>> responseMono = handler.handleNotFoundException(ex);
         final ResponseEntity<ErrorResponse> response = responseMono.block();
         assertNotNull(response);

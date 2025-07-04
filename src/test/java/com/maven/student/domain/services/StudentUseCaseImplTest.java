@@ -12,7 +12,7 @@ import com.openapi.generate.model.RequestStudentDto;
 import com.openapi.generate.model.ResponseStudentDto;
 import com.maven.student.domain.model.StudentEntity;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.util.StudentMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -101,7 +101,7 @@ class StudentUseCaseImplTest {
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))
                 .expectErrorMatches(throwable ->
-                        throwable instanceof StudentAlreadyExistsException
+                        throwable instanceof AlreadyExistsException
                                 && throwable.getMessage().contains("Student exists with document number"))
                 .verify();
     }

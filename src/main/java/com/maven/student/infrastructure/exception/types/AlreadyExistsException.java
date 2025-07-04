@@ -5,7 +5,7 @@ package com.maven.student.infrastructure.exception.types;
  * @author Joseph Magallanes
  * @since 2025-05-23
  */
-public class StudentAlreadyExistsException extends RuntimeException {
+public class AlreadyExistsException extends RuntimeException {
 
     /**
      * Constructor for CustomerAlreadyExistsException.
@@ -13,7 +13,7 @@ public class StudentAlreadyExistsException extends RuntimeException {
      * @param message the detail message
      * @param args the arguments to format the message
      */
-    public StudentAlreadyExistsException(String message, Object... args) {
+    public AlreadyExistsException(String message, Object... args) {
         super(String.format(message, args));
     }
 }

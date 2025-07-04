@@ -59,4 +59,14 @@ public class StudentController implements StudentApi {
                         .defaultIfEmpty(ResponseEntity.notFound().build())
         );
     }
+
+    @Override
+    public Mono<ResponseEntity<ResponseStudentDto>> updateStudentById(
+            Long id, Mono<RequestStudentDto> requestStudentDto, ServerWebExchange exchange) {
+        return requestStudentDto.flatMap( dto ->
+                this.studentUseCase.updateStudentById(id, dto)
+                        .map(ResponseEntity::ok)
+                        .defaultIfEmpty(ResponseEntity.notFound().build())
+        );
+    }
 }
