@@ -46,6 +46,16 @@ public class StudentUseCaseImpl implements StudentUseCase {
     }
 
     @Override
+    public Mono<ResponseStudentDto> getStudentById(Long id) {
+        log.info("Start execute method getStudentById");
+        return repositoryReactive.findById(id)
+                .map(studentMapper::studentToResponse)
+                .switchIfEmpty(Mono.error(new StudentAlreadyExistsException(
+                        "Student not found with id: %s", id)))
+                .doOnTerminate(() -> log.info("Finished execute method getStudentById"));
+    }
+
+    @Override
     public Mono<ResponseStudentDto> createStudent(RequestStudentDto requestDto) {
         log.info("Start execute method createStudent");
         final String documentNumber = requestDto.getDocument();
@@ -56,7 +66,8 @@ public class StudentUseCaseImpl implements StudentUseCase {
                     log.info("Student before create: {}", requestDto);
                     return repositoryReactive.save(studentMapper.requestToStudent(requestDto))
                             .map(studentMapper::studentToResponse)
-                            .doOnNext(customerAfter -> log.info("Student after create: {}", customerAfter));
+                            .doOnNext(customerAfter -> log.info(
+                                    "Student after create: {}", customerAfter));
                 }))
                 .cast(ResponseStudentDto.class)
                 .doOnTerminate(() -> log.info("Finished execute method createStudent"));

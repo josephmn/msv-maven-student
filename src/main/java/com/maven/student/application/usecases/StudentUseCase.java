@@ -16,4 +16,5 @@ public interface StudentUseCase {
     Flux<ResponseStudentDto> getAllStudents();
     Flux<ResponseStudentDto> getAllStudentsActives();
     Mono<ResponseStudentDto> createStudent(RequestStudentDto requestDto);
+    Mono<ResponseStudentDto> getStudentById(Long id);
 }
