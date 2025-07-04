@@ -1,8 +1,20 @@
 openapi: 3.0.4
 info:
-  title: Student API
+  title: School API
   version: 1.0.0
-  description: API para gestionar colegio
+#  description: API para gestionar colegio
+  description: |-
+    API gestion school, this API is a simple example of how to use OpenAPI 3.0 with Spring Boot.
+
+    Some useful links:
+    - [Developer LinkedIn](https://www.linkedin.com)
+    - [Repository GitHub](https://github.com/josephmn/msv-maven-student/blob/feature/issue0001/src/main/resources/openapi.yaml)
+  termsOfService: https://swagger.io/terms/
+  contact:
+    email: developer.senior@example.pe
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: http://localhost:8082
 tags:
@@ -92,6 +104,96 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /students/{id}:
+    get:
+      tags:
+        - student
+      summary: Get student by ID.
+      description: Get student by ID.
+      operationId: getStudentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of student
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseStudentDto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - student
+      summary: Put student by ID.
+      description: Put student by ID.
+      operationId: updateStudentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of student
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseStudentDto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - student
+      summary: Delete student by ID.
+      description: Delete student by ID.
+      operationId: deleteStudentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of student
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /teachers:
     get:
       tags:
@@ -204,7 +306,7 @@ components:
           example: 45453245
         name:
           type: string
-          example: Jhon
+          example: John
         lastName:
           type: string
           example: James
@@ -228,7 +330,7 @@ components:
           example: 45453245
         name:
           type: string
-          example: Jhon
+          example: John
         lastName:
           type: string
           example: James
