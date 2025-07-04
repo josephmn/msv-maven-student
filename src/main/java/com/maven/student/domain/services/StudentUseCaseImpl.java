@@ -1,11 +1,13 @@
 package com.maven.student.domain.services;
 
+import com.maven.student.infrastructure.exception.types.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.StudentUseCase;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.util.StudentMapper;
 import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseDTO;
 import com.openapi.generate.model.ResponseStudentDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,20 +79,40 @@ public class StudentUseCaseImpl implements StudentUseCase {
     public Mono<ResponseStudentDto> updateStudentById(Long id, RequestStudentDto requestDto) {
         log.info("Start execute method updateStudentById");
         return repositoryReactive.findById(id)
-                .switchIfEmpty(Mono.error(new AlreadyExistsException(
+                .switchIfEmpty(Mono.error(new NotFoundException(
                         "Student not found with id: %s", id)))
                 .flatMap(existingStudent -> {
                     if (!existingStudent.getDocument().equals(requestDto.getDocument())) {
-                        return Mono.error(new AlreadyExistsException(
+                        return Mono.error(new NotFoundException(
                                 "Student with document %s, doesn't correspond the object", requestDto.getDocument()));
                     }
                     else {
                         final var updatedStudent = studentMapper.requestToStudent(requestDto);
                         updatedStudent.setId(id);
                         return repositoryReactive.save(updatedStudent)
-                            .map(studentMapper::studentToResponse);
+                                .map(studentMapper::studentToResponse);
                     }
                 })
                 .doOnTerminate(() -> log.info("Finished execute method updateStudentById"));
+    }
+
+    @Override
+    public Mono<ResponseDTO> deleteStudentById(Long id) {
+        log.info("Start execute method deleteStudentById");
+        return repositoryReactive.existsById(id)
+                .flatMap(exists -> {
+                    if (exists) {
+                        return repositoryReactive.deleteById(id)
+                                .then(Mono.just(new ResponseDTO()
+                                        .code("200")
+                                        .message("Student deleted successfully"))
+                                );
+                    }
+                    else {
+                        return Mono.error(new NotFoundException(
+                                "Student not found with id: %s", id));
+                    }
+                })
+                .doOnTerminate(() -> log.info("Finished execute method deleteStudentById"));
     }
 }

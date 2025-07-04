@@ -191,6 +191,10 @@ paths:
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
         '400':
           description: Invalid ID supplied
         '404':
@@ -354,8 +358,23 @@ components:
       properties:
         code:
           type: string
+          example: 'XXX'
         message:
           type: string
+          example: 'Error message'
+      required:
+        - code
+        - message
+
+    ResponseDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'XXX'
+        message:
+          type: string
+          example: 'Message response'
       required:
         - code
         - message
