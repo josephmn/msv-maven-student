@@ -24,7 +24,6 @@ public interface StudentMapper {
      * @return the mapped StudentEntity
      */
     @Mappings({
-        @Mapping(source = "id", target = "id"),
         @Mapping(source = "document", target = "document"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "lastName", target = "lastName"),

@@ -1,6 +1,5 @@
 package com.maven.student.infrastructure.exception;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.core.codec.DecodingException;
@@ -34,8 +33,7 @@ public class GlobalExceptionHandler {
     public Mono<ResponseEntity<ErrorResponse>>handleNotFoundException(NotFoundException exception) {
         final ErrorResponse error = new ErrorResponse(
             HttpStatus.NOT_FOUND.value(),
-            exception.getMessage(),
-            new Date()
+            exception.getMessage()
         );
         return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(error));
     }
@@ -51,8 +49,7 @@ public class GlobalExceptionHandler {
     public Mono<ResponseEntity<ErrorResponse>> handleNotFoundException(StudentAlreadyExistsException exception) {
         final ErrorResponse error = new ErrorResponse(
             HttpStatus.CONFLICT.value(),
-            exception.getMessage(),
-            new Date()
+            exception.getMessage()
         );
         return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(error));
     }
@@ -73,7 +70,6 @@ public class GlobalExceptionHandler {
         final ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "Validation error",
-                new Date(),
                 errors
         );
 
@@ -94,7 +90,6 @@ public class GlobalExceptionHandler {
         final ErrorResponse errors = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "Invalid JSON format",
-                new Date(),
                 mapErrors
         );
 
