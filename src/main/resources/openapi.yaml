@@ -115,7 +115,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of student
+          description: Id of student
           schema:
             type: integer
             format: int64
@@ -146,7 +146,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of student
+          description: Id of student
           schema:
             type: integer
             format: int64
@@ -184,7 +184,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of student
+          description: Id of student
           schema:
             type: integer
             format: int64
@@ -205,6 +205,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  /students/list/{name}:
+    get:
+      tags:
+        - student
+      summary: Get list student by name.
+      description: Get list student by name.
+      operationId: getListStudentByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Name of student
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseStudentDto'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /teachers:
     get:
       tags:

@@ -1,10 +1,10 @@
 package com.maven.student.domain.services;
 
-import com.maven.student.infrastructure.exception.types.NotFoundException;
 import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.StudentUseCase;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.NotFoundException;
 import com.maven.student.infrastructure.util.StudentMapper;
 import com.openapi.generate.model.RequestStudentDto;
 import com.openapi.generate.model.ResponseDTO;
@@ -114,5 +114,13 @@ public class StudentUseCaseImpl implements StudentUseCase {
                     }
                 })
                 .doOnTerminate(() -> log.info("Finished execute method deleteStudentById"));
+    }
+
+    @Override
+    public Flux<ResponseStudentDto> getListStudentByName(String name) {
+        log.info("Start execute method getListStudentByName");
+        return repositoryReactive.findByNameContainingIgnoreCase(name)
+                .map(studentMapper::studentToResponse)
+                .doOnTerminate(() -> log.info("Finished execute method getListStudentByName"));
     }
 }

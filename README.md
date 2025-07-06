@@ -166,6 +166,12 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         'http://localhost:8082/api/v1/students/actives' \
         -H 'accept: application/json'
       ```
+        - Obtener estudiantes por nombre = alex:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/students/list/alex' \
+        -H 'accept: application/json'
+      ```
       ## 🧑🏻‍🏫 Profesor
         - Obtener todos los profesores:
       ```cUrl
