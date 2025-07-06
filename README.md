@@ -113,20 +113,40 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       ```
 7. Ejecutar los endpoints:
     - Para ejecutar los endpoints, puedes usar Postman o cualquier cliente HTTP.
-
-        - Para consultar todos los estudiantes, realiza una solicitud GET a:
+      ## 🧑🏻‍🎓 Estudiante
+        - Estudiante por id = 1:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/students/1' \
+        -H 'accept: application/json'
+      ```
+        - Actualizar estudiante por id:
+      ```cUrl
+      curl -X 'PUT' \
+        'http://localhost:8082/api/v1/students/10' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "document": "78765456",
+        "name": "Alberto",
+        "lastName": "Rodriguez",
+        "status": true,
+        "age": 26
+      }'
+      ```
+        - Eliminar estudiante por id = 12:
+      ```cUrl
+      curl -X 'DELETE' \
+        'http://localhost:8082/api/v1/students/12' \
+        -H 'accept: application/json'
+      ```
+        - Obtener todos los estudiantes:
       ```cUrl
       curl -X 'GET' \
         'http://localhost:8082/api/v1/students' \
-      -H 'accept: application/json'
+        -H 'accept: application/json'
       ```
-        - Para consultar los estudiantes activos, realiza una solicitud GET a:
-      ```cUrl
-      curl -X 'GET' \
-        'http://localhost:8082/api/v1/students/actives' \
-      -H 'accept: application/json'
-      ```
-        - Para registrar un nuevo estudiante, realiza una solicitud POST a:
+        - Registrar un nuevo estudiante:
       ```cUrl
       curl -X 'POST' \
         'http://localhost:8082/api/v1/students' \
@@ -140,13 +160,20 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         "age": 30
       }'
       ```
-        - Para consultar todos los profesores, realiza una solicitud GET a:
+        - Obtener los estudiantes activos:
+      ```cUrl
+      curl -X 'GET' \
+        'http://localhost:8082/api/v1/students/actives' \
+        -H 'accept: application/json'
+      ```
+      ## 🧑🏻‍🏫 Profesor
+        - Obtener todos los profesores:
       ```cUrl
       curl -X 'GET' \
         'http://localhost:8082/api/v1/teachers' \
         -H 'accept: application/json'
       ```
-        - Para registrar un nuevo teacher, realiza una solicitud POST a:
+        - Registrar un nuevo profesor:
       ```cUrl
       curl -X 'POST' \
         'http://localhost:8082/api/v1/teachers' \
