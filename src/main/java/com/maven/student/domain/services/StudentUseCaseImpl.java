@@ -123,4 +123,34 @@ public class StudentUseCaseImpl implements StudentUseCase {
                 .map(studentMapper::studentToResponse)
                 .doOnTerminate(() -> log.info("Finished execute method getListStudentByName"));
     }
+
+    @Override
+    public Flux<ResponseStudentDto> getListStudentByLastName(String lastName) {
+        log.info("Start execute method getListStudentByLastName");
+        return repositoryReactive.findByLastNameContainingIgnoreCase(lastName)
+                .map(studentMapper::studentToResponse)
+                .doOnTerminate(() -> log.info("Finished execute method getListStudentByLastName"));
+    }
+
+    @Override
+    public Mono<ResponseStudentDto> updateStudentByDocument(
+            String document, RequestStudentDto requestDto) {
+        log.info("Start execute method updateStudentByDocument");
+        return repositoryReactive.findByDocument(document)
+                .switchIfEmpty(Mono.error(new NotFoundException(
+                        "Student not found with document: %s", document)))
+                .flatMap(existingStudent -> {
+                    if (!existingStudent.getDocument().equals(requestDto.getDocument())) {
+                        return Mono.error(new NotFoundException(
+                                "Student with document %s, doesn't correspond the object", requestDto.getDocument()));
+                    }
+                    else {
+                        final var updatedStudent = studentMapper.requestToStudent(requestDto);
+                        updatedStudent.setId(existingStudent.getId());
+                        return repositoryReactive.save(updatedStudent)
+                                .map(studentMapper::studentToResponse);
+                    }
+                })
+                .doOnTerminate(() -> log.info("Finished execute method updateStudentByDocument"));
+    }
 }

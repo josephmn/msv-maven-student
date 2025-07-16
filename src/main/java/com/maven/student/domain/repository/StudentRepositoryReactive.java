@@ -17,4 +17,5 @@ public interface StudentRepositoryReactive extends ReactiveCrudRepository<Studen
     Flux<StudentEntity> findByStatusTrue();
     Mono<StudentEntity> findByDocument(String documentNumber);
     Flux<StudentEntity> findByNameContainingIgnoreCase(String name);
+    Flux<StudentEntity> findByLastNameContainingIgnoreCase(String LastName);
 }

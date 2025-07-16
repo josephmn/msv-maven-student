@@ -84,4 +84,21 @@ public class StudentController implements StudentApi {
         return Mono.just(ResponseEntity.ok(this.studentUseCase.getListStudentByName(name)))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @Override
+    public Mono<ResponseEntity<Flux<ResponseStudentDto>>> getListStudentByLastName(
+            String lastName, ServerWebExchange exchange) {
+        return Mono.just(ResponseEntity.ok(this.studentUseCase.getListStudentByLastName(lastName)))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public Mono<ResponseEntity<ResponseStudentDto>> updateStudentByDocument(
+            String document, Mono<RequestStudentDto> requestStudentDto, ServerWebExchange exchange) {
+        return requestStudentDto.flatMap(dto ->
+                this.studentUseCase.updateStudentByDocument(document, dto)
+                        .map(ResponseEntity::ok)
+                        .defaultIfEmpty(ResponseEntity.notFound().build())
+        );
+    }
 }

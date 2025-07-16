@@ -21,4 +21,6 @@ public interface StudentUseCase {
     Mono<ResponseStudentDto> updateStudentById(Long id, RequestStudentDto requestDto);
     Mono<ResponseDTO> deleteStudentById(Long id);
     Flux<ResponseStudentDto> getListStudentByName(String name);
+    Flux<ResponseStudentDto> getListStudentByLastName(String lastName);
+    Mono<ResponseStudentDto> updateStudentByDocument(String document, RequestStudentDto requestDto);
 }
