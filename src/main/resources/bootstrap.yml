@@ -1,6 +1,10 @@
 server:
   port: 8082
 
+app:
+  security:
+    username: jorge
+    password: jorge123
 spring:
   application:
     name: msv-maven-student
@@ -25,8 +29,11 @@ spring:
       enabled: ALWAYS
 springdoc:
   swagger-ui:
-    path: index.html
-
+    enabled: true
+    path: /swagger-ui/index.html
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
 logging:
   level:
     root: INFO
