@@ -67,6 +67,17 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       VALUES
       ('45453245','Jhon','James',1,33),
       ('46576543','Julian','Valdivieso',0,35);
+      
+      CREATE TABLE IF NOT EXISTS users (
+         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+         username VARCHAR(50) NOT NULL UNIQUE,
+         password VARCHAR(255) NOT NULL,
+         email VARCHAR(100) NOT NULL UNIQUE,
+         role VARCHAR(20) NOT NULL DEFAULT 'USER',
+         enabled BOOLEAN NOT NULL DEFAULT TRUE,
+         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
       ```
 4. Instalar Vault para el almacenamiento de secretos:
     - Descargar e instalar Vault para su SO, desde [Vault](https://www.vaultproject.io/downloads).
@@ -191,3 +202,28 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         "lastName": "James"
       }'
       ```
+      ## 🧑🏻‍💻 Usuario
+        - Registrar un nuevo usuario:
+      ```cUrl
+      curl -X 'POST' \
+        'http://localhost:8082/api/v1/auth/register' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "username": "testuser",
+        "password": "password123",
+        "email": "testuser@example.com",
+        "role": "USER"
+      }'
+      ```
+        - Login usuario:
+      ```cUrl
+        curl -X 'POST' \
+          'http://localhost:8082/api/v1/auth/login' \
+          -H 'accept: application/json' \
+          -H 'Content-Type: application/json' \
+          -d '{
+          "username": "testuser",
+          "password": "password123"
+        }'
+        ```

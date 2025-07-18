@@ -1,10 +1,8 @@
 server:
   port: 8082
-
-app:
-  security:
-    username: jorge
-    password: jorge123
+jwt:
+  secret: your-secret-key-here-make-it-long-and-secure
+  expiration: 120000 # 2 minutes in milliseconds
 spring:
   application:
     name: msv-maven-student
@@ -34,6 +32,29 @@ springdoc:
   api-docs:
     enabled: true
     path: /v3/api-docs
+openapi:
+  info:
+    github:
+      url: https://github.com/josephmn/msv-maven-student.git
+      definition: https://github.com/josephmn/msv-maven-student/blob/main/src/main/resources/openapi.yaml
+    terms: http://swagger.io/terms/
+    contact:
+      name: Joseph Magallanes
+      email: developer.senior@example.pe
+      url: https://www.linkedin.com/in/joseph-magallanes-nolazco/
+    servers:
+      url: http://localhost:${server.port}
+      description: Local server Swagger
 logging:
   level:
     root: INFO
+#logging:
+#  level:
+#    com.maven.student: DEBUG
+#    org.springframework.security: DEBUG
+#    org.springframework.web: DEBUG
+#    org.springframework.r2dbc: DEBUG
+#    io.r2dbc.mysql: DEBUG
+#    root: INFO
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

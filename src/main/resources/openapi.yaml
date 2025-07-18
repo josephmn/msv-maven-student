@@ -2,7 +2,7 @@ openapi: 3.0.4
 info:
   title: School API
   version: 1.0.0
-#  description: API para gestionar colegio
+  #  description: API para gestionar colegio
   description: |-
     API gestion school, this API is a simple example of how to use OpenAPI 3.0 with Spring Boot.
 
@@ -22,12 +22,18 @@ tags:
     description: Operations about student
   - name: teacher
     description: Operations about teacher
+  - name: auth
+    description: Operations about authentication
+security:
+  - bearerAuth: []
 paths:
   /students:
     get:
       tags:
         - student
       summary: Get all student.
+      security:
+        - bearerAuth: []
       description: Get all student status.
       operationId: getAllStudents
       responses:
@@ -54,6 +60,8 @@ paths:
       tags:
         - student
       summary: Create student.
+      security:
+        - bearerAuth: []
       description: Create student in database.
       operationId: createStudent
       requestBody:
@@ -82,6 +90,8 @@ paths:
       tags:
         - student
       summary: Get all student actives.
+      security:
+        - bearerAuth: []
       description: Get all student status actives.
       operationId: getAllStudentsActives
       responses:
@@ -109,6 +119,8 @@ paths:
       tags:
         - student
       summary: Get student by ID.
+      security:
+        - bearerAuth: []
       description: Get student by ID.
       operationId: getStudentById
       parameters:
@@ -140,6 +152,8 @@ paths:
       tags:
         - student
       summary: Put student by ID.
+      security:
+        - bearerAuth: []
       description: Put student by ID.
       operationId: updateStudentById
       parameters:
@@ -178,6 +192,8 @@ paths:
       tags:
         - student
       summary: Delete student by ID.
+      security:
+        - bearerAuth: []
       description: Delete student by ID.
       operationId: deleteStudentById
       parameters:
@@ -211,6 +227,8 @@ paths:
       tags:
         - student
       summary: Get list student by name.
+      security:
+        - bearerAuth: []
       description: Get list student by name.
       operationId: getListStudentByName
       parameters:
@@ -245,6 +263,8 @@ paths:
       tags:
         - student
       summary: Get list student by last name.
+      security:
+        - bearerAuth: []
       description: Get list student by last name.
       operationId: getListStudentByLastName
       parameters:
@@ -279,6 +299,8 @@ paths:
       tags:
         - student
       summary: Put student by document.
+      security:
+        - bearerAuth: []
       description: Put student by document.
       operationId: updateStudentByDocument
       parameters:
@@ -318,6 +340,8 @@ paths:
       tags:
         - teacher
       summary: Get all teacher.
+      security:
+        - bearerAuth: []
       description: Get all teacher.
       operationId: getAllTeachers
       responses:
@@ -344,6 +368,8 @@ paths:
       tags:
         - teacher
       summary: Create teacher.
+      security:
+        - bearerAuth: []
       description: Create teacher in database.
       operationId: createTeacher
       requestBody:
@@ -360,6 +386,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseTeacherDto'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Authenticate user.
+      security: []
+      description: Authenticate user in database.
+      operationId: loginUser
+      requestBody:
+        description: Authenticate user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register user for authenticate.
+      security: []
+      description: Register user for authenticate.
+      operationId: registerUser
+      requestBody:
+        description: Register user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUserDto'
         default:
           description: Unexpected error
           content:
@@ -486,3 +570,89 @@ components:
       required:
         - code
         - message
+
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: testuser
+        password:
+          type: string
+          example: password123
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+        tokenType:
+          type: string
+          example: Bearer
+        username:
+          type: string
+          example: userTest
+        roles:
+          type: array
+          items:
+            type: string
+          example: [USER, ADMIN]
+
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - password
+        - email
+        - role
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 20
+          example: testuser
+        password:
+          type: string
+          minLength: 6
+          example: password123
+        email:
+          type: string
+          format: email
+          example: testuser@example.com
+        role:
+          type: string
+          example: USER
+
+    ResponseUserDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: testuser
+        password:
+          type: string
+          example: password123
+        email:
+          type: string
+          format: email
+          example:
+        role:
+          type: string
+          example: USER
+        enabled:
+          type: boolean
+          example: true
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
