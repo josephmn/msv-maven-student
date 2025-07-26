@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
  * @since 2025-07-18
  */
 public interface UserUseCase {
-    Mono<LoginResponse> login(LoginRequest request);
+    Mono<LoginResponse> login(LoginRequest request, String ruc);
     Mono<ResponseUserDto> register(RegisterRequest request);
     Mono<ResponseUserDto> findByUsername(String username);
 }

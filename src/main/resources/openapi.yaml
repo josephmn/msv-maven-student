@@ -33,7 +33,7 @@ paths:
         - student
       summary: Get all student.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get all student status.
       operationId: getAllStudents
       responses:
@@ -61,7 +61,7 @@ paths:
         - student
       summary: Create student.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Create student in database.
       operationId: createStudent
       requestBody:
@@ -91,7 +91,7 @@ paths:
         - student
       summary: Get all student actives.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get all student status actives.
       operationId: getAllStudentsActives
       responses:
@@ -120,7 +120,7 @@ paths:
         - student
       summary: Get student by ID.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get student by ID.
       operationId: getStudentById
       parameters:
@@ -153,7 +153,7 @@ paths:
         - student
       summary: Put student by ID.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Put student by ID.
       operationId: updateStudentById
       parameters:
@@ -193,7 +193,7 @@ paths:
         - student
       summary: Delete student by ID.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Delete student by ID.
       operationId: deleteStudentById
       parameters:
@@ -228,7 +228,7 @@ paths:
         - student
       summary: Get list student by name.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get list student by name.
       operationId: getListStudentByName
       parameters:
@@ -264,7 +264,7 @@ paths:
         - student
       summary: Get list student by last name.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get list student by last name.
       operationId: getListStudentByLastName
       parameters:
@@ -300,7 +300,7 @@ paths:
         - student
       summary: Put student by document.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Put student by document.
       operationId: updateStudentByDocument
       parameters:
@@ -341,7 +341,7 @@ paths:
         - teacher
       summary: Get all teacher.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Get all teacher.
       operationId: getAllTeachers
       responses:
@@ -369,7 +369,7 @@ paths:
         - teacher
       summary: Create teacher.
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       description: Create teacher in database.
       operationId: createTeacher
       requestBody:
@@ -393,14 +393,21 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /auth/login:
+  /auth/login/{ruc}:
     post:
       tags:
         - auth
       summary: Authenticate user.
-      security: []
+      security: [ ]
       description: Authenticate user in database.
       operationId: loginUser
+      parameters:
+        - name: ruc
+          in: path
+          required: true
+          description: RUC of user
+          schema:
+            type: string
       requestBody:
         description: Authenticate user object
         content:
@@ -415,6 +422,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         default:
           description: Unexpected error
           content:
@@ -427,7 +440,7 @@ paths:
       tags:
         - auth
       summary: Register user for authenticate.
-      security: []
+      security: [ ]
       description: Register user for authenticate.
       operationId: registerUser
       requestBody:
@@ -605,11 +618,15 @@ components:
     RegisterRequest:
       type: object
       required:
+        - ruc
         - username
         - password
         - email
         - role
       properties:
+        ruc:
+          type: string
+          example: 12345678901
         username:
           type: string
           minLength: 3
@@ -634,6 +651,9 @@ components:
           type: integer
           format: int64
           example: 1
+        ruc:
+          type: string
+          example: 12345678901
         username:
           type: string
           example: testuser

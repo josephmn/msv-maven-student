@@ -3,6 +3,7 @@ package com.maven.student.infrastructure.exception;
 import java.time.LocalDateTime;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
@@ -18,6 +19,7 @@ public class ErrorResponse {
     private String message;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, String> errors;
 
     /**

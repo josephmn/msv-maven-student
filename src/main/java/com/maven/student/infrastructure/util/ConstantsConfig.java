@@ -13,4 +13,7 @@ public class ConstantsConfig {
 
     // Length substring token
     public static final int LENGTH_SUBSTRING_TOKEN = 7;
+
+    // Constants for messages errors
+    public static final String AUTH_ALREADY_EXISTS = "Already exists";
 }

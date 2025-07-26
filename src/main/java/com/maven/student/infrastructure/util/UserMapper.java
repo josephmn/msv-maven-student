@@ -24,6 +24,7 @@ public interface UserMapper {
      */
     @Mappings({
         @Mapping(source = "id", target = "id"),
+        @Mapping(source = "ruc", target = "ruc"),
         @Mapping(source = "username", target = "username"),
         @Mapping(source = "password", target = "password"),
         @Mapping(source = "email", target = "email"),
@@ -39,6 +40,7 @@ public interface UserMapper {
      */
     @Mappings({
         @Mapping(source = "id", target = "id"),
+        @Mapping(source = "ruc", target = "ruc"),
         @Mapping(source = "username", target = "username"),
         @Mapping(source = "password", target = "password"),
         @Mapping(source = "email", target = "email"),

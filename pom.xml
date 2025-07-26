@@ -92,6 +92,12 @@
             <artifactId>r2dbc-mysql</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <!-- Driver R2DBC para PostgreSQL -->
+<!--        <dependency>-->
+<!--            <groupId>org.postgresql</groupId>-->
+<!--            <artifactId>r2dbc-postgresql</artifactId>-->
+<!--            <version>1.0.7.RELEASE</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

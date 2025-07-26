@@ -1,15 +1,12 @@
 package com.maven.student.infrastructure.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.core.codec.DecodingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.bind.support.WebExchangeBindException;
 import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AuthException;
 import com.maven.student.infrastructure.exception.types.NotFoundException;
 import reactor.core.publisher.Mono;
 
@@ -55,44 +52,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handle ValidationException and return a 400 response with validation errors.
+     * Handle handleAuthException and return a 400 response.
      *
-     * @param exception the ValidationException
+     * @param exception the UnauthorizedException
      * @return ResponseEntity with error details
      */
-    @ExceptionHandler(WebExchangeBindException.class)
-    public Mono<ResponseEntity<ErrorResponse>> handleValidationException(WebExchangeBindException exception) {
-        final Map<String, String> errors = new HashMap<>();
-        exception.getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
+    @ExceptionHandler(AuthException.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleAuthException(AuthException exception) {
+        final ErrorResponse error = new ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            "Bad request",
+                exception.getErrors()
         );
-
-        final ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Validation error",
-                errors
-        );
-
-        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
-    }
-
-    /**
-     * Handle DecodingException and return a 400 response with decoding errors.
-     *
-     * @param exception the DecodingException
-     * @return ResponseEntity with error details
-     */
-    @ExceptionHandler(DecodingException.class)
-    public Mono<ResponseEntity<ErrorResponse>> handleDecodingException(DecodingException exception) {
-        final Map<String, String> mapErrors = new HashMap<>();
-        mapErrors.put("json", exception.getMessage());
-
-        final ErrorResponse errors = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Invalid JSON format",
-                mapErrors
-        );
-
-        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors));
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error));
     }
 }

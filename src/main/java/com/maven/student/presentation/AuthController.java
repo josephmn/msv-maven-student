@@ -31,11 +31,10 @@ public class AuthController implements AuthApi {
 
     @Override
     public Mono<ResponseEntity<LoginResponse>> loginUser(
-            Mono<LoginRequest> loginRequest, ServerWebExchange exchange) {
+            String ruc, Mono<LoginRequest> loginRequest, ServerWebExchange exchange) {
         return loginRequest.flatMap(dto ->
-                this.userUseCase.login(dto)
-                .map(ResponseEntity::ok)
-                .onErrorReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build())
+                this.userUseCase.login(dto, ruc)
+                        .map(ResponseEntity::ok)
         );
     }
 
@@ -44,8 +43,7 @@ public class AuthController implements AuthApi {
             Mono<RegisterRequest> registerRequest, ServerWebExchange exchange) {
         return registerRequest.flatMap(dto ->
                 this.userUseCase.register(dto)
-                .map(userEntity -> ResponseEntity.status(HttpStatus.CREATED).body(userEntity))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).build())
+                        .map(userEntity -> ResponseEntity.status(HttpStatus.CREATED).body(userEntity))
         );
     }
 }
