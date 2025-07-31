@@ -33,7 +33,7 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
     - Crear una base de datos llamada `demo`.
     - Ejecutar el siguiente script SQL para crear la tabla `student`:
       ```sql
-      CREATE TABLE student (
+      CREATE TABLE IF NOT EXISTS student (
          id INT AUTO_INCREMENT PRIMARY KEY,
          document VARCHAR(15),
          name VARCHAR(50),
@@ -54,7 +54,7 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       ('88888888','Juan','Enrique',0,21);
 
 
-      CREATE TABLE teacher (
+      CREATE TABLE IF NOT EXISTS teacher (
          id INT AUTO_INCREMENT PRIMARY KEY,
          document VARCHAR(15),
          name VARCHAR(50),
@@ -70,6 +70,7 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       
       CREATE TABLE IF NOT EXISTS users (
          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+         ruc VARCHAR(15) NOT NULL UNIQUE,
          username VARCHAR(50) NOT NULL UNIQUE,
          password VARCHAR(255) NOT NULL,
          email VARCHAR(100) NOT NULL UNIQUE,
@@ -210,6 +211,7 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         -H 'accept: application/json' \
         -H 'Content-Type: application/json' \
         -d '{
+        "ruc": "12345678901",
         "username": "testuser",
         "password": "password123",
         "email": "testuser@example.com",
@@ -219,7 +221,7 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         - Login usuario:
       ```cUrl
         curl -X 'POST' \
-          'http://localhost:8082/api/v1/auth/login' \
+          'http://localhost:8082/api/v1/auth/login/12345678901' \
           -H 'accept: application/json' \
           -H 'Content-Type: application/json' \
           -d '{
