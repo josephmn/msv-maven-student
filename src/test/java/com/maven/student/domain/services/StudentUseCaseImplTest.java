@@ -1,5 +1,6 @@
 package com.maven.student.domain.services;
 
+import com.maven.student.application.usecases.StudentPublisherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,8 @@ class StudentUseCaseImplTest {
     private StudentRepositoryReactive repositoryReactive;
     @Mock
     private StudentMapper studentMapper;
+    @Mock
+    StudentPublisherService studentPublisherService;
     @InjectMocks
     private StudentUseCaseImpl studentUseCaseImpl;
 
@@ -86,6 +89,7 @@ class StudentUseCaseImplTest {
         when(studentMapper.requestToStudent(requestDto1)).thenReturn(student1);
         when(repositoryReactive.save(student1)).thenReturn(Mono.just(student1));
         when(studentMapper.studentToResponse(student1)).thenReturn(responseDto1);
+        when(studentPublisherService.publish(any())).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))

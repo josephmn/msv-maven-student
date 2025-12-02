@@ -1,7 +1,9 @@
 package com.maven.student.domain.services;
 
 import org.springframework.stereotype.Service;
+import com.maven.student.application.usecases.StudentPublisherService;
 import com.maven.student.application.usecases.StudentUseCase;
+import com.maven.student.application.dto.StudentDto;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.exception.types.NotFoundException;
@@ -29,7 +31,7 @@ public class StudentUseCaseImpl implements StudentUseCase {
 
     private final StudentRepositoryReactive repositoryReactive;
     private final StudentMapper studentMapper;
-
+    private final StudentPublisherService studentPublisherService;
 
     @Override
     public Flux<ResponseStudentDto> getAllStudents() {
@@ -67,9 +69,21 @@ public class StudentUseCaseImpl implements StudentUseCase {
                 .switchIfEmpty(Mono.defer(() -> {
                     log.info("Student before create: {}", requestDto);
                     return repositoryReactive.save(studentMapper.requestToStudent(requestDto))
-                            .map(studentMapper::studentToResponse)
-                            .doOnNext(customerAfter -> log.info(
-                                    "Student after create: {}", customerAfter));
+                        .flatMap(savedStudent -> {
+                            final ResponseStudentDto responseDto = studentMapper.studentToResponse(savedStudent);
+
+                            final StudentDto student = new StudentDto(
+                                savedStudent.getDocument(),
+                                savedStudent.getName(),
+                                savedStudent.getLastName(),
+                                savedStudent.isStatus(),
+                                savedStudent.getAge()
+                            );
+                            return studentPublisherService.publish(student)
+                                .thenReturn(responseDto);
+                        })
+                        .doOnNext(customerAfter -> log.info(
+                            "Student after create: {}", customerAfter));
                 }))
                 .cast(ResponseStudentDto.class)
                 .doOnTerminate(() -> log.info("Finished execute method createStudent"));
