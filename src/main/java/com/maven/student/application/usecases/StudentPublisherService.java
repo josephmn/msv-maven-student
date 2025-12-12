@@ -1,5 +1,6 @@
 package com.maven.student.application.usecases;
 
+import com.maven.student.application.dto.ObjectStudent;
 import com.maven.student.application.dto.StudentDto;
 import reactor.core.publisher.Mono;
 
@@ -12,10 +13,18 @@ import reactor.core.publisher.Mono;
  */
 public interface StudentPublisherService {
     /**
-     * Publishes the given student information.
+     * Publishes the given StudentDto information.
      *
      * @param student the student information to publish
      * @return a Mono that completes when the publish operation is done
      */
     Mono<Void> publish(StudentDto student);
+
+    /**
+     * Publishes the given ObjectStudent information.
+     *
+     * @param student the student information to publish
+     * @return a Mono that completes when the publish operation is done
+     */
+    Mono<Void> publishObject(ObjectStudent student);
 }

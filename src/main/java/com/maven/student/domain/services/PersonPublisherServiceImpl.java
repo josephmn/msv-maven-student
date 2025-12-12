@@ -1,5 +1,6 @@
 package com.maven.student.domain.services;
 
+import com.maven.student.application.dto.ObjectStudent;
 import org.springframework.stereotype.Service;
 import com.azure.messaging.servicebus.ServiceBusMessage;
 import com.azure.messaging.servicebus.ServiceBusSenderAsyncClient;
@@ -26,6 +27,23 @@ public class PersonPublisherServiceImpl implements StudentPublisherService {
 
     @Override
     public Mono<Void> publish(StudentDto student) {
+        final String json;
+        try {
+            json = mapper.writeValueAsString(student);
+        }
+        catch (JsonProcessingException e) {
+            return Mono.error(e);
+        }
+
+        final ServiceBusMessage message = new ServiceBusMessage(json)
+            .setContentType("application/json")
+            .setSubject("person-created");
+
+        return Mono.fromFuture(sender.sendMessage(message).toFuture());
+    }
+
+    @Override
+    public Mono<Void> publishObject(ObjectStudent student) {
         final String json;
         try {
             json = mapper.writeValueAsString(student);

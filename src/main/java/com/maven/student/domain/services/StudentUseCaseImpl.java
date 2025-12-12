@@ -1,5 +1,8 @@
 package com.maven.student.domain.services;
 
+import com.azure.json.implementation.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maven.student.application.dto.ObjectStudent;
 import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.StudentPublisherService;
 import com.maven.student.application.usecases.StudentUseCase;
@@ -29,6 +32,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class StudentUseCaseImpl implements StudentUseCase {
 
+    private final ObjectMapper objectMapper;
     private final StudentRepositoryReactive repositoryReactive;
     private final StudentMapper studentMapper;
     private final StudentPublisherService studentPublisherService;
@@ -72,14 +76,24 @@ public class StudentUseCaseImpl implements StudentUseCase {
                         .flatMap(savedStudent -> {
                             final ResponseStudentDto responseDto = studentMapper.studentToResponse(savedStudent);
 
-                            final StudentDto student = new StudentDto(
-                                savedStudent.getDocument(),
-                                savedStudent.getName(),
-                                savedStudent.getLastName(),
-                                savedStudent.isStatus(),
-                                savedStudent.getAge()
-                            );
-                            return studentPublisherService.publish(student)
+                            final ObjectStudent student = new ObjectStudent();
+
+                            ObjectStudent.Operation operation = new ObjectStudent.Operation();
+                            operation.setDocument(savedStudent.getDocument());
+                            operation.setName(savedStudent.getName());
+                            operation.setLastName(savedStudent.getLastName());
+
+                            ObjectStudent.Data data = new ObjectStudent.Data();
+                            data.setStatus(savedStudent.isStatus());
+                            data.setAge(savedStudent.getAge());
+
+                            String operationJson = convertToJson(operation);
+                            String dataJson = convertToJson(data);
+
+                            student.setOperation(operationJson);
+                            student.setData(dataJson);
+
+                            return studentPublisherService.publishObject(student)
                                 .thenReturn(responseDto);
                         })
                         .doOnNext(customerAfter -> log.info(
@@ -166,5 +180,13 @@ public class StudentUseCaseImpl implements StudentUseCase {
                     }
                 })
                 .doOnTerminate(() -> log.info("Finished execute method updateStudentByDocument"));
+    }
+
+    private String convertToJson(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
