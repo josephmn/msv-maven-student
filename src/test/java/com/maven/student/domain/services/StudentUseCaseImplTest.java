@@ -1,11 +1,15 @@
 package com.maven.student.domain.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maven.student.application.dto.ObjectStudent;
 import com.maven.student.application.usecases.StudentPublisherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -28,6 +32,8 @@ class StudentUseCaseImplTest {
     private StudentMapper studentMapper;
     @Mock
     StudentPublisherService studentPublisherService;
+    @Spy
+    ObjectMapper objectMapper = new ObjectMapper();
     @InjectMocks
     private StudentUseCaseImpl studentUseCaseImpl;
 
@@ -83,13 +89,14 @@ class StudentUseCaseImplTest {
     }
 
     @Test
-    void testCreateStudent_WhenStudentDoesNotExist() {
+    void testCreateStudent_WhenStudentDoesNotExist() throws JsonProcessingException {
         // Arrange
         when(repositoryReactive.findByDocument(requestDto1.getDocument())).thenReturn(Mono.empty());
         when(studentMapper.requestToStudent(requestDto1)).thenReturn(student1);
         when(repositoryReactive.save(student1)).thenReturn(Mono.just(student1));
         when(studentMapper.studentToResponse(student1)).thenReturn(responseDto1);
-        when(studentPublisherService.publish(any())).thenReturn(Mono.empty());
+        //when(studentPublisherService.publishObject(any())).thenReturn(Mono.empty());
+        when(studentPublisherService.publishObject(any(ObjectStudent.class))).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))

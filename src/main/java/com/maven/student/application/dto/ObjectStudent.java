@@ -6,6 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * ObjectStudent DTO class.
+ *
+ * @author Joseph Magallanes
+ * @since 2025-11-12
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,6 +20,12 @@ public class ObjectStudent {
     private String operation;
     private String data;
 
+    /**
+     * Operation DTO class.
+     *
+     * @author Joseph Magallanes
+     * @since 2025-11-12
+     */
     @Getter
     @Setter
     @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -23,6 +35,12 @@ public class ObjectStudent {
         private String lastName;
     }
 
+    /**
+     * Data DTO class.
+     *
+     * @author Joseph Magallanes
+     * @since 2025-11-12
+     */
     @Getter
     @Setter
     @JsonInclude(JsonInclude.Include.ALWAYS)

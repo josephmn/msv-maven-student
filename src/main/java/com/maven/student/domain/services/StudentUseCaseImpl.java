@@ -1,12 +1,10 @@
 package com.maven.student.domain.services;
 
-import com.azure.json.implementation.jackson.core.JsonProcessingException;
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maven.student.application.dto.ObjectStudent;
-import org.springframework.stereotype.Service;
 import com.maven.student.application.usecases.StudentPublisherService;
 import com.maven.student.application.usecases.StudentUseCase;
-import com.maven.student.application.dto.StudentDto;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
 import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.exception.types.NotFoundException;
@@ -78,17 +76,17 @@ public class StudentUseCaseImpl implements StudentUseCase {
 
                             final ObjectStudent student = new ObjectStudent();
 
-                            ObjectStudent.Operation operation = new ObjectStudent.Operation();
+                            final ObjectStudent.Operation operation = new ObjectStudent.Operation();
                             operation.setDocument(savedStudent.getDocument());
                             operation.setName(savedStudent.getName());
                             operation.setLastName(savedStudent.getLastName());
 
-                            ObjectStudent.Data data = new ObjectStudent.Data();
+                            final ObjectStudent.Data data = new ObjectStudent.Data();
                             data.setStatus(savedStudent.isStatus());
                             data.setAge(savedStudent.getAge());
 
-                            String operationJson = convertToJson(operation);
-                            String dataJson = convertToJson(data);
+                            final String operationJson = convertToJson(operation);
+                            final String dataJson = convertToJson(data);
 
                             student.setOperation(operationJson);
                             student.setData(dataJson);
@@ -185,7 +183,8 @@ public class StudentUseCaseImpl implements StudentUseCase {
     private String convertToJson(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
-        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+        }
+        catch (com.fasterxml.jackson.core.JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
