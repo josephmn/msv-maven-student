@@ -22,6 +22,8 @@ tags:
     description: Operations about student
   - name: teacher
     description: Operations about teacher
+  - name: qr
+    description: Operations about qr
   - name: auth
     description: Operations about authentication
 security:
@@ -393,6 +395,47 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /qr/read:
+    post:
+      tags:
+        - qr
+      summary: Read code QR
+      security:
+        - bearerAuth: [ ]
+      description: Attach QR return text.
+      operationId: readQr
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: QR image type (PNG, JPG, JPEG)
+      responses:
+        '200':
+          description: QR read correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QrReadResponse'
+        '400':
+          description: The image does not contain a valid QR code.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /auth/login/{ruc}:
     post:
       tags:
@@ -583,6 +626,20 @@ components:
       required:
         - code
         - message
+
+    QrReadResponse:
+      type: object
+      properties:
+        qrText:
+          type: string
+          example: 987654321
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: The image does not contain a valid QR code.
 
     LoginRequest:
       type: object

@@ -62,6 +62,9 @@ openapi:
 logging:
   level:
     root: INFO
+#  level:
+#    org.springframework.http.codec.multipart: DEBUG
+#    org.springframework.web.reactive: DEBUG
 #logging:
 #  level:
 #    com.maven.student: DEBUG
