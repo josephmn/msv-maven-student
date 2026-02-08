@@ -98,9 +98,14 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
     - En la raiz del proyecto, crear un archivo llamado `msv-maven-student.json` y agregar el siguiente contenido:
       ```json
       {
+        "azure.servicebus.connection-string": "Endpoint=sb://studentdemo.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=f7V14KoGqMQt8Oy40PJuQddvtiBIBGV9X+ASbJbo6U1=",
+        "azure.servicebus.namespace": "studentdemo",
+        "azure.servicebus.subscription-name": "studentdemo",
+        "azure.servicebus.topic-name": "student-topic",
+        "jwt.secret": "tu_clave_secreta_para_jwt",
+        "spring.r2dbc.password": "tu_password",
         "spring.r2dbc.url": "r2dbc:mysql://localhost:3306/tu_base_de_datos",
-        "spring.r2dbc.username": "tu_username",
-        "spring.r2dbc.password": "tu_password"
+        "spring.r2dbc.username": "tu_username"
       }
       ```
       > Reemplazar `tu_base_de_datos`, `tu_username` y `tu_password` con los valores correspondientes a tu base de datos MySQL **antes de copiar y ejecutar en la ventana de cmd**.
