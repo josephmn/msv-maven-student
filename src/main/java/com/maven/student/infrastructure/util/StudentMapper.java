@@ -27,6 +27,7 @@ public interface StudentMapper {
         @Mapping(source = "document", target = "document"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "lastName", target = "lastName"),
+        @Mapping(source = "email", target = "email"),
         @Mapping(source = "status", target = "status"),
         @Mapping(source = "age", target = "age")
     })
@@ -42,6 +43,7 @@ public interface StudentMapper {
         @Mapping(source = "document", target = "document"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "lastName", target = "lastName"),
+        @Mapping(source = "email", target = "email"),
         @Mapping(source = "status", target = "status"),
         @Mapping(source = "age", target = "age")
     })

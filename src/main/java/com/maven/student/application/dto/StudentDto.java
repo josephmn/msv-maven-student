@@ -16,6 +16,7 @@ public record StudentDto(
     String document,
     String name,
     String lastName,
+    String email,
     boolean status,
     int age
 ) {

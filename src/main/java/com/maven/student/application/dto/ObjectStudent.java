@@ -33,6 +33,7 @@ public class ObjectStudent {
         private String document;
         private String name;
         private String lastName;
+        private String email;
     }
 
     /**

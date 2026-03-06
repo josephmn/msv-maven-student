@@ -80,6 +80,7 @@ public class StudentUseCaseImpl implements StudentUseCase {
                             operation.setDocument(savedStudent.getDocument());
                             operation.setName(savedStudent.getName());
                             operation.setLastName(savedStudent.getLastName());
+                            operation.setEmail(savedStudent.getEmail());
 
                             final ObjectStudent.Data data = new ObjectStudent.Data();
                             data.setStatus(savedStudent.isStatus());

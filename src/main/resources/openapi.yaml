@@ -436,6 +436,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
   /auth/login/{ruc}:
     post:
       tags:
@@ -517,10 +518,14 @@ components:
           example: 78653423
         name:
           type: string
-          example: Jhon
+          example: John
         lastName:
           type: string
           example: James
+        email:
+          type: string
+          format: email
+          example: mi_email@example.com
         status:
           type: boolean
           example: true
@@ -545,6 +550,10 @@ components:
         lastName:
           type: string
           example: James
+        email:
+          type: string
+          format: email
+          example: mi_email@example.com
         status:
           type: boolean
           example: true

@@ -56,9 +56,9 @@ class StudentUseCaseImplTest {
                 .age(OBJ_AGE);
 
         student1 = new StudentEntity(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
+                "Juan", "Perez", "jperez@gmail.com", true, OBJ_AGE);
         student2 = new StudentEntity(2L, "12345679",
-                "Julia", "Valencia", true, OBJ_AGE);
+                "Julia", "Valencia", "jvalencia@gmail.com", true, OBJ_AGE);
 
         responseDto1 = new ResponseStudentDto()
                 .id(1L)

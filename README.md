@@ -108,12 +108,23 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
         "spring.r2dbc.username": "tu_username"
       }
       ```
-      > Reemplazar `tu_base_de_datos`, `tu_username` y `tu_password` con los valores correspondientes a tu base de datos MySQL **antes de copiar y ejecutar en la ventana de cmd**.
+      > Reemplazar `tu_base_de_datos`, `tu_username` y `tu_password` con los valores correspondientes a tu base de datos MySQL, asi como los datos para el jwt `tu_clave_secreta_para_jwt` y el Service Bus **antes de copiar y ejecutar en la ventana de cmd**.
 
     - Luego, en la terminal, ejecutar el siguiente comando para escribir los secretos en Vault:
       ```bash
-      vault kv put secret/msv-maven-student/prod @msv-maven-student.json
+      vault kv put secret/msv-maven-student/prod @msv-maven-student-prod.json
       ```
+    - Para subirlo a Vault en Docker:
+      * Primero subir a docker el archivo *.json con los secretos del paso 5:
+        ```bash
+        docker cp .\msv-maven-student-dev.json vault-server:/tmp/msv-maven-student-dev.json
+        ```
+      * Luego ejecutar el siguiente comando para escribir los secretos en Vault:
+        ```bash
+        docker exec -it vault-server /bin/sh
+        cd tmp
+        vault kv put secret/msv-maven-student/dev @msv-maven-student-dev.json
+        ```
 6. Ejecutar la aplicación:
     - Asegurarse de que el servidor de Vault esté en ejecución, deberias poder resolver la siguiente URL:
       ```
