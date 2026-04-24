@@ -1,32 +1,24 @@
-server:
-  port: 8082
-
 spring:
   application:
     name: msv-maven-student
     version: "@project.version@"
-  profiles:
-    active: prod
+  banner:
+    location: classpath:banner/banner-${SPRING_PROFILES_ACTIVE}.txt
   cloud:
+    config:
+      uri: ${CONFIG_SERVER:http://localhost:8888}
     vault:
       enabled: true
       host: ${VAULT_HOST:localhost}
       port: ${VAULT_PORT:8200}
       scheme: http
-      authentication: TOKEN
-      token: 00000000-0000-0000-0000-000000000000
+      authentication: APPROLE
+      app-role:
+        role-id: ${VAULT_ROLE_ID}
+        secret-id: ${VAULT_SECRET_ID}
       kv:
         enabled: true
-        application-name: msv-maven-student
         backend: secret
-        version: 2
   output:
     ansi:
       enabled: ALWAYS
-springdoc:
-  swagger-ui:
-    path: index.html
-
-logging:
-  level:
-    root: INFO

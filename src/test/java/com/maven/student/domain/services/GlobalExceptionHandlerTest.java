@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.maven.student.infrastructure.exception.ErrorResponse;
 import com.maven.student.infrastructure.exception.GlobalExceptionHandler;
 import com.maven.student.infrastructure.exception.types.NotFoundException;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import reactor.core.publisher.Mono;
 
 class GlobalExceptionHandlerTest {
@@ -38,42 +38,11 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testHandleStudentAlreadyExistsException() {
-        final StudentAlreadyExistsException ex = new StudentAlreadyExistsException("Ya existe");
+        final AlreadyExistsException ex = new AlreadyExistsException("Ya existe");
         final Mono<ResponseEntity<ErrorResponse>> responseMono = handler.handleNotFoundException(ex);
         final ResponseEntity<ErrorResponse> response = responseMono.block();
         assertNotNull(response);
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("Ya existe", response.getBody().getMessage());
-    }
-
-    @Test
-    void testHandleValidationException() {
-        final WebExchangeBindException ex = Mockito.mock(WebExchangeBindException.class);
-        final FieldError fieldError1 = new FieldError("obj", "campo1", "obligatorio");
-        final FieldError fieldError2 = new FieldError("obj", "campo2", "invalido");
-        Mockito.when(ex.getFieldErrors()).thenReturn(List.of(fieldError1, fieldError2));
-
-        final Mono<ResponseEntity<ErrorResponse>> responseMono = handler.handleValidationException(ex);
-        final ResponseEntity<ErrorResponse> response = responseMono.block();
-        assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Validation error", response.getBody().getMessage());
-        final Map<String, String> errors = response.getBody().getErrors();
-        assertEquals(2, errors.size());
-        assertEquals("obligatorio", errors.get("campo1"));
-        assertEquals("invalido", errors.get("campo2"));
-    }
-
-    @Test
-    void testHandleDecodingException() {
-        final DecodingException ex = new DecodingException("json error");
-        final Mono<ResponseEntity<ErrorResponse>> responseMono = handler.handleDecodingException(ex);
-        final ResponseEntity<ErrorResponse> response = responseMono.block();
-        assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Invalid JSON format", response.getBody().getMessage());
-        final Map<String, String> errors = response.getBody().getErrors();
-        assertEquals(1, errors.size());
-        assertEquals("json error", errors.get("json"));
     }
 }

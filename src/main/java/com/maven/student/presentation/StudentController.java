@@ -8,6 +8,7 @@ import org.springframework.web.server.ServerWebExchange;
 import com.maven.student.application.usecases.StudentUseCase;
 import com.openapi.generate.api.StudentApi;
 import com.openapi.generate.model.RequestStudentDto;
+import com.openapi.generate.model.ResponseDTO;
 import com.openapi.generate.model.ResponseStudentDto;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -42,6 +43,13 @@ public class StudentController implements StudentApi {
     }
 
     @Override
+    public Mono<ResponseEntity<ResponseStudentDto>> getStudentById(Long id, ServerWebExchange exchange) {
+        return this.studentUseCase.getStudentById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
     public Mono<ResponseEntity<ResponseStudentDto>> createStudent(
             Mono<RequestStudentDto> requestDto, ServerWebExchange exchange) {
         return requestDto.flatMap(dto ->
@@ -49,6 +57,47 @@ public class StudentController implements StudentApi {
                         .map(responseDto -> ResponseEntity
                                 .created(URI.create("/api/v1/students/"))
                                 .body(responseDto))
+                        .defaultIfEmpty(ResponseEntity.notFound().build())
+        );
+    }
+
+    @Override
+    public Mono<ResponseEntity<ResponseStudentDto>> updateStudentById(
+            Long id, Mono<RequestStudentDto> requestStudentDto, ServerWebExchange exchange) {
+        return requestStudentDto.flatMap(dto ->
+                this.studentUseCase.updateStudentById(id, dto)
+                        .map(ResponseEntity::ok)
+                        .defaultIfEmpty(ResponseEntity.notFound().build())
+        );
+    }
+
+    @Override
+    public Mono<ResponseEntity<ResponseDTO>> deleteStudentById(Long id, ServerWebExchange exchange) {
+        return this.studentUseCase.deleteStudentById(id)
+                .map(response -> ResponseEntity.ok().body(response))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public Mono<ResponseEntity<Flux<ResponseStudentDto>>> getListStudentByName(
+            String name, ServerWebExchange exchange) {
+        return Mono.just(ResponseEntity.ok(this.studentUseCase.getListStudentByName(name)))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public Mono<ResponseEntity<Flux<ResponseStudentDto>>> getListStudentByLastName(
+            String lastName, ServerWebExchange exchange) {
+        return Mono.just(ResponseEntity.ok(this.studentUseCase.getListStudentByLastName(lastName)))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public Mono<ResponseEntity<ResponseStudentDto>> updateStudentByDocument(
+            String document, Mono<RequestStudentDto> requestStudentDto, ServerWebExchange exchange) {
+        return requestStudentDto.flatMap(dto ->
+                this.studentUseCase.updateStudentByDocument(document, dto)
+                        .map(ResponseEntity::ok)
                         .defaultIfEmpty(ResponseEntity.notFound().build())
         );
     }

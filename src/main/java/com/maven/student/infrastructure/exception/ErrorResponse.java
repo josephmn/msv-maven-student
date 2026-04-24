@@ -1,7 +1,9 @@
 package com.maven.student.infrastructure.exception;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
@@ -15,7 +17,9 @@ import lombok.Data;
 public class ErrorResponse {
     private int status; // HTTP status code
     private String message;
-    private Date date;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, String> errors;
 
     /**
@@ -23,14 +27,13 @@ public class ErrorResponse {
      *
      * @param status HTTP status code
      * @param message Error message
-     * @param date Date of the error
      * @param errors Map of error codes and messages
      */
-    public ErrorResponse(int status, String message, Date date, Map<String, String> errors) {
+    public ErrorResponse(int status, String message, Map<String, String> errors) {
         this.status = status;
         this.message = message;
-        this.date = date;
         this.errors = errors;
+        this.date = LocalDateTime.now();
     }
 
     /**
@@ -38,11 +41,10 @@ public class ErrorResponse {
      *
      * @param status HTTP status code
      * @param message Error message
-     * @param date Date of the error
      */
-    public ErrorResponse(int status, String message, Date date) {
+    public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
-        this.date = date;
+        this.date = LocalDateTime.now();
     }
 }

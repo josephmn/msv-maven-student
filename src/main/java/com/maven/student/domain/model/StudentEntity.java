@@ -25,6 +25,7 @@ public class StudentEntity {
     private String document;
     private String name;
     private String lastName;
+    private String email;
     private boolean status;
     private int age;
 }

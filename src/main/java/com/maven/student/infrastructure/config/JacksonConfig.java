@@ -10,6 +10,8 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * JacksonConfig.
@@ -34,6 +36,8 @@ public class JacksonConfig implements WebFluxConfigurer {
     public ObjectMapper reactiveObjectMapper() {
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonParser.Feature.STRICT_DUPLICATE_DETECTION, true);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper;
     }
 
