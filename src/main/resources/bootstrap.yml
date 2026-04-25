@@ -22,3 +22,7 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+
+key:
+  private: ${PRIVATE_KEY_RSA}
+  public: ${PUBLIC_KEY_RSA}
