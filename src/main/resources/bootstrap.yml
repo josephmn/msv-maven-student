@@ -7,18 +7,34 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_SERVER:http://localhost:8888}
+    # Vault configuration using AppRole authentication
+#    vault:
+#      enabled: true
+#      host: ${VAULT_HOST:localhost}
+#      port: ${VAULT_PORT:8200}
+#      scheme: http
+#      authentication: APPROLE
+#      app-role:
+#        role-id: ${VAULT_ROLE_ID}
+#        secret-id: ${VAULT_SECRET_ID}
+#      kv:
+#        enabled: true
+#        backend: secret
+    # Vault with static token (for development/testing purposes)
     vault:
       enabled: true
       host: ${VAULT_HOST:localhost}
       port: ${VAULT_PORT:8200}
       scheme: http
-      authentication: APPROLE
-      app-role:
-        role-id: ${VAULT_ROLE_ID}
-        secret-id: ${VAULT_SECRET_ID}
+      authentication: TOKEN # Authentication type (token, AppRole, etc.)
+      token: 00000000-0000-0000-0000-000000000000 # token root
       kv:
         enabled: true
-        backend: secret
+        backend: secret # Backend name secret
   output:
     ansi:
       enabled: ALWAYS
+
+key:
+  private: ${PRIVATE_KEY_RSA}
+  public: ${PUBLIC_KEY_RSA}

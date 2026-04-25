@@ -24,6 +24,8 @@ tags:
     description: Operations about teacher
   - name: qr
     description: Operations about qr
+  - name: asymmetric-key
+    description: Operations about asymmetric key
   - name: auth
     description: Operations about authentication
 security:
@@ -437,6 +439,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /encrypt:
+    post:
+      tags:
+        - asymmetric-key
+      summary: Encrypt password
+      security:
+        - bearerAuth: [ ]
+      description: Send string value and return encrypter string.
+      operationId: encryptValue
+      requestBody:
+        description: Send object decrypter value
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptRequest'
+      responses:
+        '200':
+          description: Decrypter successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /decrypt:
+    post:
+      tags:
+        - asymmetric-key
+      summary: Decrypt value
+      security:
+        - bearerAuth: [ ]
+      description: Send encrypter value and return decrypter string.
+      operationId: decryptValue
+      requestBody:
+        description: Send object encrypter value
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecryptRequest'
+      responses:
+        '200':
+          description: Decrypter successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecryptResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /auth/login/{ruc}:
     post:
       tags:
@@ -643,6 +703,34 @@ components:
           type: string
           example: 987654321
 
+    EncryptRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "hello world!"
+
+    EncryptResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "ZeTDQD4N237Y+gTK8DGjtsN1FvhvHsy4QvpxwNumZIR5/q+k+ygKvznnS7fMm0lUXdV7gvbnvZyZaoiKNgeFgN6z/gIb55EFnYguTYnT92LnR2mDr0pMEZiUc+RLCpaMJhBP7SijUR9nFW2RqgKc/fbJJsUTc8nwfDcgvCCNVGh6QmBEWnkwxrDZvLPFDGugqDKYmS7r3lf+G/4GdL7kti7ICDVokebDBNFrONTNTawaTIsE2gJqiiYFT/yssGi+HvyUuw/U1hCJvbdL3h2uCRRTieq2XFCx33K7TQ82HcjRUeFtUYNGVvpTP15WFbkv5LK04SQlVbs5bhofGrEozw=="
+
+    DecryptRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "ZeTDQD4N237Y+gTK8DGjtsN1FvhvHsy4QvpxwNumZIR5/q+k+ygKvznnS7fMm0lUXdV7gvbnvZyZaoiKNgeFgN6z/gIb55EFnYguTYnT92LnR2mDr0pMEZiUc+RLCpaMJhBP7SijUR9nFW2RqgKc/fbJJsUTc8nwfDcgvCCNVGh6QmBEWnkwxrDZvLPFDGugqDKYmS7r3lf+G/4GdL7kti7ICDVokebDBNFrONTNTawaTIsE2gJqiiYFT/yssGi+HvyUuw/U1hCJvbdL3h2uCRRTieq2XFCx33K7TQ82HcjRUeFtUYNGVvpTP15WFbkv5LK04SQlVbs5bhofGrEozw=="
+
+    DecryptResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "hello world!"
+
     ErrorResponse:
       type: object
       properties:
@@ -666,12 +754,15 @@ components:
     LoginResponse:
       type: object
       properties:
-        token:
+        access_token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-        tokenType:
+        token_type:
           type: string
           example: Bearer
+        expires_in:
+          type: string
+          example: 30 min
         username:
           type: string
           example: testuser

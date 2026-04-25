@@ -16,4 +16,7 @@ public class ConstantsConfig {
 
     // Constants for messages errors
     public static final String AUTH_ALREADY_EXISTS = "Already exists";
+
+    // Convert time expiration token to minutes
+    public static final long EXPIRATION_TOKEN_CONVERT = 60000;
 }
