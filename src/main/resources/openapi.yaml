@@ -666,12 +666,15 @@ components:
     LoginResponse:
       type: object
       properties:
-        token:
+        access_token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-        tokenType:
+        token_type:
           type: string
           example: Bearer
+        expires_in:
+          type: string
+          example: 30 min
         username:
           type: string
           example: testuser

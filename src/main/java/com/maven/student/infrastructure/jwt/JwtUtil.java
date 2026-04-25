@@ -1,5 +1,7 @@
 package com.maven.student.infrastructure.jwt;
 
+import static com.maven.student.infrastructure.util.ConstantsConfig.EXPIRATION_TOKEN_CONVERT;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,5 +109,9 @@ public class JwtUtil {
                         isTokenExpired(token)
                                 .map(expired -> tokenUsername.equals(username) && !expired)
                 );
+    }
+
+    public String getExpirationMinutes() {
+        return (expiration / EXPIRATION_TOKEN_CONVERT) + " min";
     }
 }

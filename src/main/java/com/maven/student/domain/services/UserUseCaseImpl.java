@@ -62,8 +62,9 @@ public class UserUseCaseImpl implements UserUseCase {
 
                     final String token = jwtUtil.generateToken(userEntity.getUsername(), userEntity.getRole());
                     final LoginResponse response = new LoginResponse();
-                    response.setToken(token);
+                    response.setAccessToken(token);
                     response.setTokenType("Bearer");
+                    response.setExpiresIn(jwtUtil.getExpirationMinutes());
                     response.setUsername(userEntity.getUsername());
                     response.setRoles(Collections.singletonList(userEntity.getRole()));
                     return Mono.just(response);
