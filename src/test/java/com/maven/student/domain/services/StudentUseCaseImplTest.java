@@ -1,10 +1,15 @@
 package com.maven.student.domain.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maven.student.application.dto.ObjectStudent;
+import com.maven.student.application.usecases.StudentPublisherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -12,7 +17,7 @@ import com.openapi.generate.model.RequestStudentDto;
 import com.openapi.generate.model.ResponseStudentDto;
 import com.maven.student.domain.model.StudentEntity;
 import com.maven.student.domain.repository.StudentRepositoryReactive;
-import com.maven.student.infrastructure.exception.types.StudentAlreadyExistsException;
+import com.maven.student.infrastructure.exception.types.AlreadyExistsException;
 import com.maven.student.infrastructure.util.StudentMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,6 +30,10 @@ class StudentUseCaseImplTest {
     private StudentRepositoryReactive repositoryReactive;
     @Mock
     private StudentMapper studentMapper;
+    @Mock
+    StudentPublisherService studentPublisherService;
+    @Spy
+    ObjectMapper objectMapper = new ObjectMapper();
     @InjectMocks
     private StudentUseCaseImpl studentUseCaseImpl;
 
@@ -40,7 +49,6 @@ class StudentUseCaseImplTest {
     @BeforeEach
     void setUp() {
         requestDto1 = new RequestStudentDto()
-                .id(null)
                 .document("12345678")
                 .name("Juan")
                 .lastName("Perez")
@@ -48,9 +56,9 @@ class StudentUseCaseImplTest {
                 .age(OBJ_AGE);
 
         student1 = new StudentEntity(1L, "12345678",
-                "Juan", "Perez", true, OBJ_AGE);
+                "Juan", "Perez", "jperez@gmail.com", true, OBJ_AGE);
         student2 = new StudentEntity(2L, "12345679",
-                "Julia", "Valencia", true, OBJ_AGE);
+                "Julia", "Valencia", "jvalencia@gmail.com", true, OBJ_AGE);
 
         responseDto1 = new ResponseStudentDto()
                 .id(1L)
@@ -81,12 +89,14 @@ class StudentUseCaseImplTest {
     }
 
     @Test
-    void testCreateStudent_WhenStudentDoesNotExist() {
+    void testCreateStudent_WhenStudentDoesNotExist() throws JsonProcessingException {
         // Arrange
         when(repositoryReactive.findByDocument(requestDto1.getDocument())).thenReturn(Mono.empty());
         when(studentMapper.requestToStudent(requestDto1)).thenReturn(student1);
         when(repositoryReactive.save(student1)).thenReturn(Mono.just(student1));
         when(studentMapper.studentToResponse(student1)).thenReturn(responseDto1);
+        //when(studentPublisherService.publishObject(any())).thenReturn(Mono.empty());
+        when(studentPublisherService.publishObject(any(ObjectStudent.class))).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))
@@ -102,7 +112,7 @@ class StudentUseCaseImplTest {
         // Act & Assert
         StepVerifier.create(studentUseCaseImpl.createStudent(requestDto1))
                 .expectErrorMatches(throwable ->
-                        throwable instanceof StudentAlreadyExistsException
+                        throwable instanceof AlreadyExistsException
                                 && throwable.getMessage().contains("Student exists with document number"))
                 .verify();
     }

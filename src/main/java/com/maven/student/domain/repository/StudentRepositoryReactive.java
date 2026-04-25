@@ -16,4 +16,6 @@ import reactor.core.publisher.Mono;
 public interface StudentRepositoryReactive extends ReactiveCrudRepository<StudentEntity, Long> {
     Flux<StudentEntity> findByStatusTrue();
     Mono<StudentEntity> findByDocument(String documentNumber);
+    Flux<StudentEntity> findByNameContainingIgnoreCase(String name);
+    Flux<StudentEntity> findByLastNameContainingIgnoreCase(String LastName);
 }
