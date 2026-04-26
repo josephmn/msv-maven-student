@@ -53,12 +53,12 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
     post:
       tags:
@@ -82,12 +82,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseStudentDto'
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /students/actives:
     get:
@@ -111,12 +111,12 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /students/{id}:
     get:
@@ -146,12 +146,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - student
@@ -186,12 +186,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - student
@@ -219,12 +219,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /students/findByName/{name}:
     get:
@@ -255,12 +255,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /students/findByLastName/{lastName}:
     get:
@@ -291,12 +291,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /students/updateByDocument/{document}:
     put:
@@ -332,12 +332,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /teachers:
     get:
@@ -361,12 +361,12 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
     post:
       tags:
@@ -390,12 +390,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseTeacherDto'
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /qr/read:
     post:
@@ -431,7 +431,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/QrErrorResponse'
         '500':
           description: Internal server error.
           content:
@@ -531,13 +531,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        default:
-          description: Unexpected error
+                $ref: "#/components/schemas/AuthError"
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
   /auth/register:
     post:
@@ -561,12 +561,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseUserDto'
-        default:
-          description: Unexpected error
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
@@ -670,7 +670,7 @@ components:
           format: int32
           example: 30
 
-    Error:
+    AuthError:
       type: object
       properties:
         code:
@@ -731,12 +731,19 @@ components:
           type: string
           example: "hello world!"
 
-    ErrorResponse:
+    QrErrorResponse:
       type: object
       properties:
         error:
           type: string
           example: The image does not contain a valid QR code.
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Internal server error.
 
     LoginRequest:
       type: object
