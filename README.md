@@ -128,29 +128,35 @@ Api creado para registro de estudiantes en MySQL, se ha desarrollado para 2 endp
       ```
       > Reemplazar `tu_base_de_datos`, `tu_username` y `tu_password` con los valores correspondientes a tu base de datos MySQL, asi como los datos para el jwt `tu_clave_secreta_para_jwt` y el Service Bus **antes de copiar y ejecutar en la ventana de cmd**.
       
-      Reemplazar **KEY_PRIVATE**
-      ````
-      -----BEGIN RSA PRIVATE KEY-----
-      MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDhb1EZwQ/6iHldJ0xdRWd+0Y5nULcj1yxVRr5fpR8cl0AGAC2Bg3jUI3jAZsMcIeAeIk0TVM0bUhgrUR73HmjWUET5BHGwfLlOy5o45VXfLIsxDHkqEdOHiPzvz4LWhL6Wp0Yn7H+Kwrh5mCavelagNykOUpJ+8G1oSze//W+FbNQl7oV6WKSwVIgokzSU2KNYPN0AXm/X011lgbeEpJ2nr8pUAHeV/bnz1kaR4n/yoKVsjpVF3n3G79ExYB5QdSqvwUk09JvHPczjR49svv2W+zZhIoAQ3rRganNM1QUWbLm4rPkSIAs1QP1+5kjiQCU84oYsh1CyYdnVZZv1bgitAgMBAAECggEALexVypfML/62LnZPdZ6qVyjMSBqmvCvcsaCALo6+GD5tgetuWbhVGG4DbrpgW65A8BKPvfTj9YFTQBu94Zx1wdbHPi0cFdZKj5UlXRrG0/hIgJzoX9wSycTrtdSBdD7Fbn4z6fUhBDznhImss8mJtQiXmf3TLv2+Y+USvc8cdULUqj1exKP3eSB/baFy5sz2aBKgxBQ3Bbcg4AC9BpSrwGLIJhqMPvznq89fa2FLlS/RiaJSmGATeczLKfJ86BL1MlesnTp80z6u27f4I3UeV96xarytehEKApnsd9/vVCVvnQwx5k0HuUBEJsn0kVJYuPv31K1oZeBYyBudUYBnAQKBgQDjAe7PyjCdiPMB8DfzszGEUjHrIW+Hf7vNr2K/4KQDaPtgrkwODKzwEbHzhPjHwgZsdRNA2qh8J0ySdhUlPMs265It2Y956AzsrwY1ivgxrpiR3MPgEiMgX+U9ocLbPWsiS5PcweLLVzWuQ0jmVsaNcWqx326g9conmlrnT38OLQKBgQD+OfaoqIUkHcjF0AakSoP/ZKwY43zcSL+3sH2njH/OH2aAsr18LJJABLHpF6gXuy8uf3dWPwmPkjqdmz99YC0McuSLZAC4QmTs2iTqtue74xK0cYmkBGYS7ilIKDhxbXTW+TTIFgFTf1tPjsuUvZACDtsmwJDKIrmkoGoCJJn0gQKBgAERHUI0vQ3AewPjUSAAE5d/m2Rzf8avPv60eE5Wi+7IK4ZEy261eIqYSrHOSi0GKGmSE0kWvfv3Y1C85VSLeJkFemZkw1vbT1Q9blYKFSiGnYjx9Km07B1W1gj4HaZSH5LFsCg1cQ9rlYEAJ/ONLNm1Ur8LQcXX4d9Vxl+X7AzxAoGAC8zg+B8qXuzK/vOS+1lCGz6vBlC44Pi3fW1Bx98rp4OpnFuvk+31s+cD4w/oC4HyxLPB9EzkwrdE5T/piIZIUQWcOiQgLG1Yhe3yPLrUstHtcla6ztQtcL+BRwom5IzyGXBj1M3ArgGBWYYFSRgrcQ0Dex8BGYDXIR8ZDJRqWQECgYEAkFhT5q92uD+dFowJ62KCR2P3xBjXALKwP/3q/0FuWHv3iVeTijmklXJCYzOzxzV5wE5h6PxA/N1e7icaZIbE3KnUA9wPY/932UoOKeH4TJXMdGxNkcIgNJbiiht4+DZEgfroFb6Apf78kWqIfGBKH4QaR+xNzUIArRJ5N/jptAo=
-      -----END RSA PRIVATE KEY-----
-      ````
-      Reemplazar **KEY_PUBLIC**
-      ````
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4W9RGcEP+oh5XSdMXUVnftGOZ1C3I9csVUa+X6UfHJdABgAtgYN41CN4wGbDHCHgHiJNE1TNG1IYK1Ee9x5o1lBE+QRxsHy5TsuaOOVV3yyLMQx5KhHTh4j878+C1oS+lqdGJ+x/isK4eZgmr3pWoDcpDlKSfvBtaEs3v/1vhWzUJe6FeliksFSIKJM0lNijWDzdAF5v19NdZYG3hKSdp6/KVAB3lf2589ZGkeJ/8qClbI6VRd59xu/RMWAeUHUqr8FJNPSbxz3M40ePbL79lvs2YSKAEN60YGpzTNUFFmy5uKz5EiALNUD9fuZI4kAlPOKGLIdQsmHZ1WWb9W4IrQIDAQAB
-      -----END PUBLIC KEY-----
-      ````
+      #### RSA KEY de ejemplo que se deben reemplazar en el archivo `msv-maven-student.json`:
+      * Reemplazar **KEY_PRIVATE**
+        ````
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDhb1EZwQ/6iHldJ0xdRWd+0Y5nULcj1yxVRr5fpR8cl0AGAC2Bg3jUI3jAZsMcIeAeIk0TVM0bUhgrUR73HmjWUET5BHGwfLlOy5o45VXfLIsxDHkqEdOHiPzvz4LWhL6Wp0Yn7H+Kwrh5mCavelagNykOUpJ+8G1oSze//W+FbNQl7oV6WKSwVIgokzSU2KNYPN0AXm/X011lgbeEpJ2nr8pUAHeV/bnz1kaR4n/yoKVsjpVF3n3G79ExYB5QdSqvwUk09JvHPczjR49svv2W+zZhIoAQ3rRganNM1QUWbLm4rPkSIAs1QP1+5kjiQCU84oYsh1CyYdnVZZv1bgitAgMBAAECggEALexVypfML/62LnZPdZ6qVyjMSBqmvCvcsaCALo6+GD5tgetuWbhVGG4DbrpgW65A8BKPvfTj9YFTQBu94Zx1wdbHPi0cFdZKj5UlXRrG0/hIgJzoX9wSycTrtdSBdD7Fbn4z6fUhBDznhImss8mJtQiXmf3TLv2+Y+USvc8cdULUqj1exKP3eSB/baFy5sz2aBKgxBQ3Bbcg4AC9BpSrwGLIJhqMPvznq89fa2FLlS/RiaJSmGATeczLKfJ86BL1MlesnTp80z6u27f4I3UeV96xarytehEKApnsd9/vVCVvnQwx5k0HuUBEJsn0kVJYuPv31K1oZeBYyBudUYBnAQKBgQDjAe7PyjCdiPMB8DfzszGEUjHrIW+Hf7vNr2K/4KQDaPtgrkwODKzwEbHzhPjHwgZsdRNA2qh8J0ySdhUlPMs265It2Y956AzsrwY1ivgxrpiR3MPgEiMgX+U9ocLbPWsiS5PcweLLVzWuQ0jmVsaNcWqx326g9conmlrnT38OLQKBgQD+OfaoqIUkHcjF0AakSoP/ZKwY43zcSL+3sH2njH/OH2aAsr18LJJABLHpF6gXuy8uf3dWPwmPkjqdmz99YC0McuSLZAC4QmTs2iTqtue74xK0cYmkBGYS7ilIKDhxbXTW+TTIFgFTf1tPjsuUvZACDtsmwJDKIrmkoGoCJJn0gQKBgAERHUI0vQ3AewPjUSAAE5d/m2Rzf8avPv60eE5Wi+7IK4ZEy261eIqYSrHOSi0GKGmSE0kWvfv3Y1C85VSLeJkFemZkw1vbT1Q9blYKFSiGnYjx9Km07B1W1gj4HaZSH5LFsCg1cQ9rlYEAJ/ONLNm1Ur8LQcXX4d9Vxl+X7AzxAoGAC8zg+B8qXuzK/vOS+1lCGz6vBlC44Pi3fW1Bx98rp4OpnFuvk+31s+cD4w/oC4HyxLPB9EzkwrdE5T/piIZIUQWcOiQgLG1Yhe3yPLrUstHtcla6ztQtcL+BRwom5IzyGXBj1M3ArgGBWYYFSRgrcQ0Dex8BGYDXIR8ZDJRqWQECgYEAkFhT5q92uD+dFowJ62KCR2P3xBjXALKwP/3q/0FuWHv3iVeTijmklXJCYzOzxzV5wE5h6PxA/N1e7icaZIbE3KnUA9wPY/932UoOKeH4TJXMdGxNkcIgNJbiiht4+DZEgfroFb6Apf78kWqIfGBKH4QaR+xNzUIArRJ5N/jptAo=
+        -----END RSA PRIVATE KEY-----
+        ````
+      * Reemplazar **KEY_PUBLIC**
+        ````
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4W9RGcEP+oh5XSdMXUVnftGOZ1C3I9csVUa+X6UfHJdABgAtgYN41CN4wGbDHCHgHiJNE1TNG1IYK1Ee9x5o1lBE+QRxsHy5TsuaOOVV3yyLMQx5KhHTh4j878+C1oS+lqdGJ+x/isK4eZgmr3pWoDcpDlKSfvBtaEs3v/1vhWzUJe6FeliksFSIKJM0lNijWDzdAF5v19NdZYG3hKSdp6/KVAB3lf2589ZGkeJ/8qClbI6VRd59xu/RMWAeUHUqr8FJNPSbxz3M40ePbL79lvs2YSKAEN60YGpzTNUFFmy5uKz5EiALNUD9fuZI4kAlPOKGLIdQsmHZ1WWb9W4IrQIDAQAB
+        -----END PUBLIC KEY-----
+        ````
 
-    - Luego, en la terminal, ejecutar el siguiente comando para escribir los secretos en Vault:
+    - Luego, en la terminal (**PowerShell o Bash**), ejecutar el siguiente comando para escribir los secretos en Vault:
       ```bash
       vault kv put secret/msv-maven-student/prod @msv-maven-student-prod.json
       ```
-    - Para subirlo a Vault en Docker:
-      * Primero subir a docker el archivo *.json con los secretos del paso 5:
-        ```bash
+    - Para subirlo a un Vault que se encuentre en Docker:
+      * Primero subir a docker el archivo msv-maven-student.json.json con los secretos del paso 5:
+        #### PowerShell (Windows)
+        ```powershell
         docker cp .\msv-maven-student-dev.json vault-server:/tmp/msv-maven-student-dev.json
         ```
-      * Luego ejecutar el siguiente comando para escribir los secretos en Vault:
+        #### Bash (Linux / macOS / Git Bash)
+        ```bash
+        docker cp ./msv-maven-student-dev.json vault-server:/tmp/msv-maven-student-dev.json
+        ```
+      * Luego ejecutar el siguiente comando (**PowerShell o Bash**) para escribir los secretos en Vault:
         ```bash
         docker exec -it vault-server /bin/sh
         cd tmp
