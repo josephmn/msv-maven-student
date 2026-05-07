@@ -26,8 +26,6 @@ public class ApplicationProperties {
 
     /**
      * Returns the GitHub information for the API.
-     *
-     * @return Github object containing URL and definition.
      */
     @Getter
     @Setter
@@ -37,8 +35,6 @@ public class ApplicationProperties {
     }
     /**
      * Returns the contact information for the API.
-     *
-     * @return Contact object containing name, email, and URL.
      */
     @Getter
     @Setter
@@ -50,8 +46,6 @@ public class ApplicationProperties {
 
     /**
      * Returns the server information for the API.
-     *
-     * @return Servers object containing URL and description.
      */
     @Getter
     @Setter
