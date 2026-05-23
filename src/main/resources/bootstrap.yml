@@ -35,6 +35,16 @@ spring:
     ansi:
       enabled: ALWAYS
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,beans,loggers
+
+  endpoint:
+    health:
+      show-details: always
+
 key:
   private: ${PRIVATE_KEY_RSA}
   public: ${PUBLIC_KEY_RSA}

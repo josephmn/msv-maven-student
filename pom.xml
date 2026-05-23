@@ -157,6 +157,12 @@
             <version>${azure-messaging-servicebus.version}</version>
         </dependency>
 
+        <!-- Spring Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- Zxing -->
         <dependency>
             <groupId>com.google.zxing</groupId>

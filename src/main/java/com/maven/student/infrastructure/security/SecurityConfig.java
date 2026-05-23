@@ -59,8 +59,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/error"
                         ).permitAll()
-                        .pathMatchers("/actuator/**").permitAll()
-                        .anyExchange().authenticated()
+                    .pathMatchers("/actuator", "/actuator/**").permitAll()
+                    .anyExchange().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
