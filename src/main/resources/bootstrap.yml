@@ -5,6 +5,18 @@ spring:
   banner:
     location: classpath:banner/banner-${SPRING_PROFILES_ACTIVE}.txt
   cloud:
+    azure:
+      appconfiguration:
+        stores:
+          - connection-string: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
+#            selects:
+#              - key-filter: "*"
+#                label-filter: dev
+#            monitoring:
+#              enabled: true
+#              triggers:
+#                - key: RefreshCount
+#              refresh-interval: 2s
     config:
       uri: ${CONFIG_SERVER:http://localhost:8888}
     # Vault configuration using AppRole authentication
